@@ -1,4 +1,4 @@
-package chribb.mactrack.ui.home;
+package chribb.mactrac.ui.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import chribb.mactrack.R;
+import chribb.mactrac.R;
 
 public class HomeFragment extends Fragment {
 

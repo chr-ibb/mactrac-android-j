@@ -1,4 +1,4 @@
-package chribb.mactrack;
+package chribb.mactrac;
 
 import android.content.Context;
 
@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("chribb.mactrack", appContext.getPackageName());
+        assertEquals("chribb.mactrac", appContext.getPackageName());
     }
 }

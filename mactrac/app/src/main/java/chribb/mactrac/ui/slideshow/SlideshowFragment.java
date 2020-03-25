@@ -1,4 +1,4 @@
-package chribb.mactrack.ui.slideshow;
+package chribb.mactrac.ui.slideshow;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import chribb.mactrack.R;
+import chribb.mactrac.R;
 
 public class SlideshowFragment extends Fragment {
 

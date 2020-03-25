@@ -1,4 +1,4 @@
-package chribb.mactrack.ui.slideshow;
+package chribb.mactrac.ui.slideshow;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

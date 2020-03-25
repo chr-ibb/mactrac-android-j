@@ -3,11 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_day">
+
+    <fragment
+        android:id="@+id/nav_day"
+        android:name="chribb.mactrac.ui.day.DayFragment"
+        android:label="@string/menu_day"
+        tools:layout="@layout/fragment_day">
+    </fragment>
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="chribb.mactrack.ui.home.HomeFragment"
+        android:name="chribb.mactrac.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home">
 
@@ -17,7 +24,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_home_second"
-        android:name="chribb.mactrack.ui.home.HomeSecondFragment"
+        android:name="chribb.mactrac.ui.home.HomeSecondFragment"
         android:label="@string/home_second"
         tools:layout="@layout/fragment_home_second">
         <action
@@ -31,13 +38,13 @@
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="chribb.mactrack.ui.gallery.GalleryFragment"
+        android:name="chribb.mactrac.ui.gallery.GalleryFragment"
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="chribb.mactrack.ui.slideshow.SlideshowFragment"
+        android:name="chribb.mactrac.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
 </navigation>

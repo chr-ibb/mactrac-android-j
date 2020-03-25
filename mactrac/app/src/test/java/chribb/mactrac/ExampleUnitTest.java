@@ -1,4 +1,4 @@
-package chribb.mactrack;
+package chribb.mactrac;
 
 import org.junit.Test;
 

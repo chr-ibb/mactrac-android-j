@@ -1,4 +1,4 @@
-package chribb.mactrack.ui.home;
+package chribb.mactrac.ui.home;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
