@@ -13,6 +13,20 @@
     </fragment>
 
     <fragment
+        android:id="@+id/nav_week"
+        android:name="chribb.mactrac.ui.week.WeekFragment"
+        android:label="@string/menu_week"
+        tools:layout="@layout/fragment_week">
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_month"
+        android:name="chribb.mactrac.ui.month.MonthFragment"
+        android:label="@string/menu_month"
+        tools:layout="@layout/fragment_month">
+    </fragment>
+
+    <fragment
         android:id="@+id/nav_home"
         android:name="chribb.mactrac.ui.home.HomeFragment"
         android:label="@string/menu_home"
@@ -22,6 +36,7 @@
             android:id="@+id/action_HomeFragment_to_HomeSecondFragment"
             app:destination="@id/nav_home_second" />
     </fragment>
+
     <fragment
         android:id="@+id/nav_home_second"
         android:name="chribb.mactrac.ui.home.HomeSecondFragment"
@@ -36,15 +51,4 @@
             app:argType="string" />
     </fragment>
 
-    <fragment
-        android:id="@+id/nav_gallery"
-        android:name="chribb.mactrac.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
-
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="chribb.mactrac.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
 </navigation>

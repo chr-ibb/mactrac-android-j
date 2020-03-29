@@ -13,4 +13,6 @@
     <string name="menu_slideshow">Slideshow</string>
 
     <string name="home_second">Home Second</string>
+    <string name="menu_week">Week</string>
+    <string name="menu_month">Month</string>
 </resources>

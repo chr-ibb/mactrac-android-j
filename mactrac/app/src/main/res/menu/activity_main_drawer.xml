@@ -9,12 +9,12 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="Day" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_week"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_gallery" />
+            android:title="@string/menu_week" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_month"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
+            android:title="@string/menu_month" />
     </group>
 </menu>

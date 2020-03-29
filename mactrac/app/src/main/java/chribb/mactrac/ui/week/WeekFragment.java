@@ -1,4 +1,4 @@
-package chribb.mactrac.ui.gallery;
+package chribb.mactrac.ui.week;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import chribb.mactrac.R;
 
-public class GalleryFragment extends Fragment {
 
-    private GalleryViewModel galleryViewModel;
+public class WeekFragment  extends Fragment {
+    private WeekViewModel weekViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        galleryViewModel =
-                ViewModelProviders.of(this).get(GalleryViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_gallery, container, false);
-        final TextView textView = root.findViewById(R.id.text_gallery);
-        galleryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        weekViewModel =
+                ViewModelProviders.of(this).get(WeekViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_week, container, false);
+        final TextView textView = root.findViewById(R.id.text_week);
+        weekViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

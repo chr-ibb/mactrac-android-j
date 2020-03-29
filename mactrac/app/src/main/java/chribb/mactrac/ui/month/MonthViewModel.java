@@ -1,16 +1,15 @@
-package chribb.mactrac.ui.gallery;
+package chribb.mactrac.ui.month;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class GalleryViewModel extends ViewModel {
-
+public class MonthViewModel extends ViewModel {
     private MutableLiveData<String> mText;
 
-    public GalleryViewModel() {
+    public MonthViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is gallery fragment");
+        mText.setValue("This is month fragment");
     }
 
     public LiveData<String> getText() {

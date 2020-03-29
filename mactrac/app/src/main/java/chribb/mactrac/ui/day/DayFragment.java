@@ -21,14 +21,7 @@ public class DayFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         dayViewModel =
                 ViewModelProviders.of(this).get(DayViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_gallery, container, false);
-        final TextView textView = root.findViewById(R.id.text_gallery);
-        dayViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+        View root = inflater.inflate(R.layout.fragment_day, container, false);
         return root;
     }
 }
