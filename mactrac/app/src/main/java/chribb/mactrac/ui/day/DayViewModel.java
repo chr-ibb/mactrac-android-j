@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.viewpager2.widget.ViewPager2;
 
+import java.time.LocalDate;
+
 public class DayViewModel extends ViewModel {
     private MutableLiveData<String> mText;
 
@@ -19,7 +21,6 @@ public class DayViewModel extends ViewModel {
     }
 
     public int getToday() {
-        //return today's date minus the "start" date
-        return 0;
+        return (int) LocalDate.now().toEpochDay();
     }
 }

@@ -12,17 +12,18 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.viewpager.widget.ViewPager;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import chribb.mactrac.R;
 
 public class DayFragment extends Fragment {
-    private DayViewModel dayViewModel;
+    private DayViewModel viewModel;
 
-    private static final int NUM_DAYS =  5;
+    //This is the number of days between January 1 1970 and January 1 2070
+    //TO-DO: update once year approaches 2070
+    private static final int NUM_DAYS =  36525;
 
     private ViewPager2 viewPager;
 
@@ -31,8 +32,7 @@ public class DayFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        dayViewModel =
-                ViewModelProviders.of(this).get(DayViewModel.class);
+        viewModel = new ViewModelProvider(this).get(DayViewModel.class);
         View view = inflater.inflate(R.layout.fragment_day, container, false);
         return view;
     }
@@ -42,8 +42,10 @@ public class DayFragment extends Fragment {
         viewPager = view.findViewById(R.id.pager);
         pagerAdapter = new ScreenSlidePagerAdapter(this);
         viewPager.setAdapter(pagerAdapter);
+        viewPager.setOffscreenPageLimit(3);
 
-        viewPager.setCurrentItem(getToday());
+        int today = viewModel.getToday();
+        viewPager.setCurrentItem(today, false);
     }
 
 
@@ -54,21 +56,13 @@ public class DayFragment extends Fragment {
 
         @Override
         public Fragment createFragment(int position) {
-            Fragment dayFragment = new DayScreenSlideFragment();
-            //set up the day, based on POSITION
-
-            return dayFragment;
+            return DayScreenSlideFragment.newInstance(position);
         }
 
         @Override
         public int getItemCount() {
             return NUM_DAYS;
         }
-    }
-
-    private int getToday() {
-        //return todays date minus the starting date. should this be in the viewmodel?
-        return 0;
     }
 
 }

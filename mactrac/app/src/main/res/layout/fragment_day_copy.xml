@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/day_text"
+        android:id="@+id/day_text_copy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Tuesday"
@@ -14,7 +14,7 @@
         android:textAlignment="center"/>
 
     <TextView
-        android:id="@+id/date_text"
+        android:id="@+id/date_text_copy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="3/25/2020"
