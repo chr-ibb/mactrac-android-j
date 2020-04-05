@@ -22,7 +22,7 @@ public class DayFragment extends Fragment {
     private DayViewModel viewModel;
 
     //This is the number of days between January 1 1970 and January 1 2070
-    //TO-DO: update once year approaches 2070
+    //TO-DO: update when year approaches 2070
     private static final int NUM_DAYS =  36525;
 
     private ViewPager2 viewPager;
