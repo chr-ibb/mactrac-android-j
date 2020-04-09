@@ -37,7 +37,9 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.FoodVi
     public void onBindViewHolder(FoodViewHolder holder, int position) {
         if (macros != null) {
             Macro current = macros.get(position);
-            holder.foodItemView.setText(current.getFood());
+            String text = current.getFood() + "    " + current.getCalories() +
+                    " calories, " + current.getProtein() + "g protein, " + current.getCarbs() + " carbs";
+            holder.foodItemView.setText(text);
         } else {
             // Covers the case of data not being ready yet.
             holder.foodItemView.setText("No Macros");

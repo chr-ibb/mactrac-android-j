@@ -32,7 +32,7 @@ public abstract class MacroRoomDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             MacroRoomDatabase.class, "macro_database")
                             .addCallback(sRoomDatabaseCallback)
-                            .build();
+                            .build(); //TODO remove addCallback
                 }
             }
         }
@@ -44,24 +44,26 @@ public abstract class MacroRoomDatabase extends RoomDatabase {
         public void onOpen(@NonNull SupportSQLiteDatabase db) {
             super.onOpen(db);
 
+            //TODO get rid of this whole thing below... do i get rid of the whole callback or not?
+
             // If you want to keep data through app restarts,
             // comment out the following block
-            databaseWriteExecutor.execute(() -> {
-                // Populate the database in the background.
-                // If you want to start with more words, just add them.
-                MacroDao dao = INSTANCE.macroDao();
-                dao.deleteAll();
-
-                LocalDate today = LocalDate.now();
-                LocalDate tomorrow = today.plusDays(1);
-
-                Macro macro = new Macro((int) today.toEpochDay(), "Banana", 100, 2, 5);
-                dao.insert(macro);
-                macro = new Macro((int) today.toEpochDay(), "hamburger", 500, 14, 20);
-                dao.insert(macro);
-                macro = new Macro((int) tomorrow.toEpochDay(), "Banana", 100, 2, 5);
-                dao.insert(macro);
-            });
+//            databaseWriteExecutor.execute(() -> {
+//                // Populate the database in the background.
+//                // If you want to start with more words, just add them.
+//                MacroDao dao = INSTANCE.macroDao();
+//                dao.deleteAll();
+//
+//                LocalDate today = LocalDate.now();
+//                LocalDate tomorrow = today.plusDays(1);
+//
+//                Macro macro = new Macro((int) today.toEpochDay(), "Banana", 100, 2, 5);
+//                dao.insert(macro);
+//                macro = new Macro((int) today.toEpochDay(), "hamburger", 500, 14, 20);
+//                dao.insert(macro);
+//                macro = new Macro((int) tomorrow.toEpochDay(), "Banana", 100, 2, 5);
+//                dao.insert(macro);
+//            });
         }
     };
 }

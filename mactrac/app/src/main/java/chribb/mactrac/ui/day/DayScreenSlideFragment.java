@@ -24,7 +24,6 @@ import chribb.mactrac.R;
 public class DayScreenSlideFragment extends Fragment {
     private DayViewModel viewModel;
     private int daysSinceEpoch;
-    public static final int NEW_FOOD_ACTIVITY_REQUEST_CODE = 1;
 
     /**
      * This is the standard way of "instantiating" a new fragment with data to pass in,
