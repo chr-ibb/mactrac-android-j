@@ -1,5 +1,6 @@
 package chribb.mactrac.ui.day;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.time.LocalDate;
+
+import chribb.mactrac.Macro;
+import chribb.mactrac.MainActivity;
 import chribb.mactrac.R;
 
 public class DayFragment extends Fragment {
@@ -47,6 +54,16 @@ public class DayFragment extends Fragment {
 
         int today = viewModel.getToday();
         viewPager.setCurrentItem(today, false);
+
+        //TODO TODO Figure out where you're actually setting this (here or in the sub fragment?)
+        // and then set it up to actually take you to the AddMacro Fragment using NAVIGATION
+        FloatingActionButton fab = requireActivity().findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewModel.insert((int) LocalDate.now().toEpochDay(), "TEST", 1, 2, 3);
+            }
+        });
     }
 
 
