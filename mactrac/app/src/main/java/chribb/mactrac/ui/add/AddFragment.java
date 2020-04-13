@@ -68,7 +68,9 @@ public class AddFragment extends Fragment {
     }
 
     private void pop() {
-        NavDirections action = AddFragmentDirections.actionNavAddToNavDay();
-        navController.navigate(action);
+        navController.navigateUp();
+        navController.popBackStack();
+//        NavDirections action = AddFragmentDirections.actionNavAddToNavDay();
+//        navController.navigate(action);
     }
 }

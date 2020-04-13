@@ -28,7 +28,7 @@
             android:id="@+id/action_nav_add_to_nav_day"
             app:destination="@id/nav_day"
             app:popUpTo="@+id/nav_day"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="false"/>
     </fragment>
 
     <fragment

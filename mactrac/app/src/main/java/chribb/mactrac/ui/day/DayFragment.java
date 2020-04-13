@@ -26,13 +26,11 @@ public class DayFragment extends Fragment {
     private DayViewModel viewModel;
     private NavController navController;
     private FloatingActionButton fab;
+    private ViewPager2 viewPager;
+    private FragmentStateAdapter pagerAdapter;
 
     //This is the number of days between January 1 1970 and January 1 2070
     private static final int NUM_DAYS =  36525;
-
-    private ViewPager2 viewPager;
-
-    private FragmentStateAdapter pagerAdapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -58,19 +56,23 @@ public class DayFragment extends Fragment {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-
-                //TODO change the fab onClick here
-                //TODO perhaps set the selected day in viewModel, so that you can return to said day when you come back to Day View
+                viewModel.setDayOnScreen(viewPager.getCurrentItem());
             }
         });
 
+        //TODO so below doesnt actually do anything. If we recreate the fragment, we also recreate the viewmodel...
+        // so either dont save the day and just pop back, like we are currently, or save it to room if I need
+        // that functionality in the future. we'll see
+//        if (viewModel.getDayOnScreen() == null) {
+//            setDayOnScreen(viewModel.getToday(), false);
+//        } else {
+//            setDayOnScreen(viewModel.getDayOnScreen(), true);
+//        }
+        //TODO this might be overwriting any attempt to save the day on screen...
+        // I need to set the day to today when you open the app, but not when you recreate the view..
+        // I think maybe the viewmodel wont have a dayOnScreen on fresh open, because its just a private int
+        setDayOnScreen(viewModel.getToday(), false);
 
-
-        int today = viewModel.getToday();
-        viewPager.setCurrentItem(today, false);
-
-        //TODO TODO Figure out where you're actually setting this (here or in the sub fragment?)
-        // and then set it up to actually take you to the Add Macro Fragment using NAVIGATION
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,12 +80,18 @@ public class DayFragment extends Fragment {
                 navToAdd();
             }
         });
+
+
     }
 
     private void navToAdd() {
         //TODO make a swipe up animation
         NavDirections action = DayFragmentDirections.actionNavDayToNavAdd(viewPager.getCurrentItem());
         navController.navigate(action);
+    }
+
+    private void setDayOnScreen(int day, boolean isSmooth) {
+        viewPager.setCurrentItem(day, isSmooth);
     }
 
 

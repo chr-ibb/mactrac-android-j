@@ -4,9 +4,6 @@ import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-import androidx.viewpager2.widget.ViewPager2;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -16,17 +13,14 @@ import chribb.mactrac.MacroRepository;
 
 public class DayViewModel extends AndroidViewModel {
     private MacroRepository repo;
-//    private LiveData<List<Macro>> allMacros;
-
-
-//    private LiveData<Integer> dayOnScreen; //TODO not sure if useful
+    private Integer dayOnScreen; //TODO not sure if useful
 
     public DayViewModel(Application application) {
         super(application);
         repo = new MacroRepository(application);
-//        allMacros = repo.loadAll();
     }
 
+    /** Repo Methods **/
     public void insert(Integer day, String food, Integer calories, Integer protein, Integer carbs) {
         repo.insert(new Macro(day, food, calories, protein, carbs));
     }
@@ -39,11 +33,8 @@ public class DayViewModel extends AndroidViewModel {
         return repo.loadFood(day);
     }
 
-//    LiveData<List<Macro>> loadAll() {
-//        return allMacros;
-//    }
 
-
+    /** public methods **/
     public int getToday() {
         return (int) LocalDate.now().toEpochDay();
     }
@@ -81,8 +72,14 @@ public class DayViewModel extends AndroidViewModel {
                     break;
             }
         }
-
         return relativeDay;
     }
 
+    public Integer getDayOnScreen() {
+        return dayOnScreen;
+    }
+
+    public void setDayOnScreen(Integer dayOnScreen) {
+        this.dayOnScreen = dayOnScreen;
+    }
 }
