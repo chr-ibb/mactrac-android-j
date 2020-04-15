@@ -10,7 +10,7 @@ public class MacroRepository {
     private MacroDao macroDao;
 //    private LiveData<List<Macro>> allMacros;
 
-    //TODO this repo is unneccessary since we only have one source of data, but for eventual backing up to server,
+    //TODO this repo is unnecessary since we only have one source of data, but for eventual backing up to server,
     // this will be used to get the data either locally or from server, if I ever implement that
 
     // Note that in order to unit test the WordRepository, you have to remove the Application
