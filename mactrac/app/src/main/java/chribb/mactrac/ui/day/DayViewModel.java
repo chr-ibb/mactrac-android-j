@@ -20,10 +20,13 @@ public class DayViewModel extends AndroidViewModel {
         repo = new MacroRepository(application);
     }
 
-    /** Repo Methods **/
+        /* Repo Methods */
+
     public void insert(Integer day, String food, Integer calories, Integer protein, Integer carbs) {
         repo.insert(new Macro(day, food, calories, protein, carbs));
     }
+
+    public void deleteAll() { repo.deleteAll(); }
 
     public void deleteFood(int id) {
         repo.deleteFood(id);
@@ -34,7 +37,8 @@ public class DayViewModel extends AndroidViewModel {
     }
 
 
-    /** public methods **/
+        /* public methods */
+
     public int getToday() {
         return (int) LocalDate.now().toEpochDay();
     }

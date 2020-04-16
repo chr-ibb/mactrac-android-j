@@ -14,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import chribb.mactrac.FoodListAdapter;
@@ -22,7 +21,7 @@ import chribb.mactrac.Macro;
 import chribb.mactrac.R;
 
 public class DayScreenSlideFragment extends Fragment {
-    private DayViewModel viewModel;
+    private DayViewModel dayViewModel;
     private int daysSinceEpoch;
 
     /**
@@ -43,7 +42,7 @@ public class DayScreenSlideFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        viewModel = new ViewModelProvider(requireParentFragment()).get(DayViewModel.class);
+        dayViewModel = new ViewModelProvider(requireParentFragment()).get(DayViewModel.class);
         return (ViewGroup) inflater.inflate(
                 R.layout.fragment_screen_slide_day, container, false);
     }
@@ -60,7 +59,7 @@ public class DayScreenSlideFragment extends Fragment {
         assert getArguments() != null;
         daysSinceEpoch = getArguments().getInt("daysSinceEpoch", 0);
 
-        viewModel.loadFood(daysSinceEpoch).observe(getViewLifecycleOwner(), new Observer<List<Macro>>() {
+        dayViewModel.loadFood(daysSinceEpoch).observe(getViewLifecycleOwner(), new Observer<List<Macro>>() {
             @Override
             public void onChanged(@Nullable final List<Macro> macros) {
                 // Update the cached copy of the words in the adapter.
@@ -72,10 +71,9 @@ public class DayScreenSlideFragment extends Fragment {
         TextView dateText = view.findViewById(R.id.date_text);
         TextView relativeDayText = view.findViewById(R.id.relative_day_text);
 
-        dayOfWeekText.setText(viewModel.getDayOfWeekText(daysSinceEpoch));
-        dateText.setText(viewModel.getDateText(daysSinceEpoch));
-        relativeDayText.setText(viewModel.getRelativeDayText(daysSinceEpoch));
-
+        dayOfWeekText.setText(dayViewModel.getDayOfWeekText(daysSinceEpoch));
+        dateText.setText(dayViewModel.getDateText(daysSinceEpoch));
+        relativeDayText.setText(dayViewModel.getRelativeDayText(daysSinceEpoch));
     }
 
 

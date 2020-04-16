@@ -8,7 +8,6 @@ import java.util.List;
 
 public class MacroRepository {
     private MacroDao macroDao;
-//    private LiveData<List<Macro>> allMacros;
 
     //TODO this repo is unnecessary since we only have one source of data, but for eventual backing up to server,
     // this will be used to get the data either locally or from server, if I ever implement that
@@ -20,7 +19,6 @@ public class MacroRepository {
     public MacroRepository(Application application) {
         MacroRoomDatabase db = MacroRoomDatabase.getDatabase(application);
         macroDao = db.macroDao();
-//        allMacros = macroDao.LoadAll();
     }
 
 
@@ -29,6 +27,12 @@ public class MacroRepository {
     public void insert(Macro macro) {
         MacroRoomDatabase.databaseWriteExecutor.execute(() -> {
             macroDao.insert(macro);
+        });
+    }
+
+    public void deleteAll() {
+        MacroRoomDatabase.databaseWriteExecutor.execute(() -> {
+            macroDao.deleteAll();
         });
     }
 
@@ -41,9 +45,5 @@ public class MacroRepository {
     public LiveData<List<Macro>> loadFood(Integer day) {
         return macroDao.loadFood(day);
     }
-
-//    public LiveData<List<Macro>> loadAll() {
-//        return allMacros;
-//    }
 
 }
