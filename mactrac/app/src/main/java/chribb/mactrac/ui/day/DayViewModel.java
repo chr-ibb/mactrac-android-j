@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Random;
 
 import chribb.mactrac.Macro;
 import chribb.mactrac.MacroRepository;
@@ -85,5 +86,20 @@ public class DayViewModel extends AndroidViewModel {
 
     public void setDayOnScreen(Integer dayOnScreen) {
         this.dayOnScreen = dayOnScreen;
+    }
+
+    public void test10000() {
+        Random r = new Random();
+        int N = 10000;
+
+        for(int i = 0; i < N; i++) {
+            Integer d = r.nextInt(36525);
+            String f = "Test Food " + i;
+            Integer cal = r.nextInt(500);
+            Integer p = r.nextInt(20);
+            Integer car = r.nextInt(20);
+
+            insert(d, f, cal, p, car);
+        }
     }
 }

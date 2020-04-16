@@ -50,6 +50,7 @@ public class AddFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //TODO remove keyboard from screen
                 addMacro();
                 pop();
             }
@@ -68,8 +69,8 @@ public class AddFragment extends Fragment {
     }
 
     private void pop() {
-        navController.navigateUp();
         navController.popBackStack();
+        navController.navigateUp();
 //        NavDirections action = AddFragmentDirections.actionNavAddToNavDay();
 //        navController.navigate(action);
     }

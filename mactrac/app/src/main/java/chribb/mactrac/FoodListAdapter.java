@@ -14,11 +14,17 @@ import java.util.List;
 public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.FoodViewHolder> {
 
     public class FoodViewHolder extends RecyclerView.ViewHolder {
-        private final TextView foodItemView;
+        private final TextView foodName;
+        private final TextView foodCalories;
+        private final TextView foodProtein;
+        private final TextView foodCarbs;
 
         private FoodViewHolder(View itemView) {
             super(itemView);
-            foodItemView = itemView.findViewById(R.id.food_text);
+            foodName = itemView.findViewById(R.id.food_name);
+            foodCalories = itemView.findViewById(R.id.food_calories);
+            foodProtein = itemView.findViewById(R.id.food_protein);
+            foodCarbs = itemView.findViewById(R.id.food_carbs);
         }
     }
 
@@ -37,12 +43,21 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.FoodVi
     public void onBindViewHolder(FoodViewHolder holder, int position) {
         if (macros != null) {
             Macro current = macros.get(position);
-            String text = current.getFood() + "    " + current.getCalories() +
-                    " calories, " + current.getProtein() + "g protein, " + current.getCarbs() + " carbs";
-            holder.foodItemView.setText(text);
+
+            holder.foodName.setText(current.getFood());
+            String cal = current.getCalories() + " Calories";
+            holder.foodCalories.setText(cal);
+            String pro = current.getProtein() + "g Protein";
+            holder.foodProtein.setText(pro);
+            String car = current.getCarbs() + "g Carbs";
+            holder.foodCarbs.setText(car);
+
+//            String text = current.getFood() + "    " + current.getCalories() +
+//                    " calories, " + current.getProtein() + "g protein, " + current.getCarbs() + " carbs";
+//            holder.foodItemView.setText(text);
         } else {
             // Covers the case of data not being ready yet.
-            holder.foodItemView.setText("No Macros");
+            holder.foodName.setText("No Macros");
         }
     }
 

@@ -15,12 +15,14 @@ public class AppBarViewModel extends ViewModel {
     private MutableLiveData<Boolean> todayPressed;
     private MutableLiveData<Boolean> searchPressed;
     private MutableLiveData<Boolean> deleteAllPressed;
+    private MutableLiveData<Boolean> test10000Pressed;
 
     public AppBarViewModel() {
         super();
-        todayPressed = new MutableLiveData<Boolean>(false);
-        searchPressed = new MutableLiveData<Boolean>(false);
-        deleteAllPressed = new MutableLiveData<Boolean>(false);
+        todayPressed = new MutableLiveData<>(false);
+        searchPressed = new MutableLiveData<>(false);
+        deleteAllPressed = new MutableLiveData<>(false);
+        test10000Pressed = new MutableLiveData<>(false);
     }
 
     public MutableLiveData<Boolean> getTodayPressed() {
@@ -45,5 +47,13 @@ public class AppBarViewModel extends ViewModel {
 
     public void setDeleteAllPressed(Boolean pressed) {
         this.deleteAllPressed.setValue(pressed);
+    }
+
+    public MutableLiveData<Boolean> getTest10000Pressed() {
+        return test10000Pressed;
+    }
+
+    public void setTest10000Pressed(Boolean pressed) {
+        this.test10000Pressed.setValue(pressed);
     }
 }

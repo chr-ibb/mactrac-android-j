@@ -63,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_delete_all:
                 appBarViewModel.setDeleteAllPressed(true);
                 return true;
+            case R.id.action_test_10000:
+                appBarViewModel.setTest10000Pressed(true);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
