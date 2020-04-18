@@ -23,8 +23,9 @@ public class DayViewModel extends AndroidViewModel {
 
         /* Repo Methods */
 
-    public void insert(Integer day, String food, Integer calories, Integer protein, Integer carbs) {
-        repo.insert(new Macro(day, food, calories, protein, carbs));
+    public void insert(Integer day, String food, Integer calories,
+                       Integer protein, Integer fat, Integer carbs) {
+        repo.insert(new Macro(day, food, calories, protein, fat, carbs));
     }
 
     public void deleteAll() { repo.deleteAll(); }
@@ -107,9 +108,26 @@ public class DayViewModel extends AndroidViewModel {
             String f = "Test Food " + i;
             Integer cal = r.nextInt(500);
             Integer p = r.nextInt(20);
+            Integer fat = r.nextInt(20);
             Integer car = r.nextInt(20);
 
-            insert(d, f, cal, p, car);
+            insert(d, f, cal, p, fat, car);
+        }
+    }
+
+    public void testToday() {
+        Random r = new Random();
+        int N = 10;
+        int d = dayOnScreen;
+
+        for (int i = 0; i < N; i++) {
+            String f = "Test Food " + i;
+            Integer cal = r.nextInt(500);
+            Integer p = r.nextInt(20);
+            Integer fat = r.nextInt(20);
+            Integer car = r.nextInt(20);
+
+            insert(d, f, cal, p, fat, car);
         }
     }
 }

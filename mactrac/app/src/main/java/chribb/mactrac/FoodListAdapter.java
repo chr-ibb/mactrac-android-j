@@ -17,6 +17,7 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.FoodVi
         private final TextView foodName;
         private final TextView foodCalories;
         private final TextView foodProtein;
+        private final TextView foodFat;
         private final TextView foodCarbs;
 
         private FoodViewHolder(View itemView) {
@@ -24,6 +25,7 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.FoodVi
             foodName = itemView.findViewById(R.id.food_name);
             foodCalories = itemView.findViewById(R.id.food_calories);
             foodProtein = itemView.findViewById(R.id.food_protein);
+            foodFat = itemView.findViewById(R.id.food_fat);
             foodCarbs = itemView.findViewById(R.id.food_carbs);
         }
     }
@@ -49,15 +51,15 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.FoodVi
             holder.foodCalories.setText(cal);
             String pro = current.getProtein() + "g Protein";
             holder.foodProtein.setText(pro);
+            String fat = current.getFat() + "g Fat";
+            holder.foodFat.setText(fat);
             String car = current.getCarbs() + "g Carbs";
             holder.foodCarbs.setText(car);
 
-//            String text = current.getFood() + "    " + current.getCalories() +
-//                    " calories, " + current.getProtein() + "g protein, " + current.getCarbs() + " carbs";
-//            holder.foodItemView.setText(text);
         } else {
             // Covers the case of data not being ready yet.
-            holder.foodName.setText("No Macros");
+            //TODO is this neccessary? / extract
+            holder.foodName.setText("Data Not Ready");
         }
     }
 

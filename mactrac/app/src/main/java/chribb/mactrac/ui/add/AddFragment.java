@@ -24,6 +24,7 @@ public class AddFragment extends Fragment {
     private EditText editName;
     private EditText editCalories;
     private EditText editProtein;
+    private EditText editFat;
     private EditText editCarbs;
 
     @Override
@@ -44,6 +45,7 @@ public class AddFragment extends Fragment {
         editName = view.findViewById(R.id.edit_name);
         editCalories = view.findViewById(R.id.edit_calories);
         editProtein = view.findViewById(R.id.edit_protein);
+        editFat = view.findViewById(R.id.edit_fat);
         editCarbs = view.findViewById(R.id.edit_carbs);
 
         Button addButton = view.findViewById(R.id.button_add);
@@ -63,9 +65,10 @@ public class AddFragment extends Fragment {
         String name = editName.getText().toString();
         Integer calories = Integer.parseInt(editCalories.getText().toString());
         Integer protein = Integer.parseInt(editProtein.getText().toString());
+        Integer fat = Integer.parseInt(editFat.getText().toString());
         Integer carbs = Integer.parseInt(editCarbs.getText().toString());
 
-        viewModel.insert(day, name, calories, protein, carbs);
+        viewModel.insert(day, name, calories, protein, fat, carbs);
     }
 
     private void pop() {

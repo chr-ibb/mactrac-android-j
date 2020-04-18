@@ -16,8 +16,9 @@ public class AddViewModel extends AndroidViewModel {
         repo = new MacroRepository(application);
     }
 
-    public void insert(Integer day, String food, Integer calories, Integer protein, Integer carbs) {
-        repo.insert(new Macro(day, food, calories, protein, carbs));
+    public void insert(Integer day, String food, Integer calories,
+                       Integer protein, Integer fat, Integer carbs) {
+        repo.insert(new Macro(day, food, calories, protein, fat, carbs));
     }
 
     //TODO make it so this saves the data that has been entered so far, so that if you rotate screens you dont lose it

@@ -66,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_test_10000:
                 appBarViewModel.setTest10000Pressed(true);
                 return true;
+            case R.id.action_test_today:
+                appBarViewModel.setTestTodayPressed(true);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

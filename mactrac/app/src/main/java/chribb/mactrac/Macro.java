@@ -8,18 +8,19 @@ public class Macro {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-
     private int day;
     private String food;
     private Integer calories;
     private Integer protein;
+    private Integer fat;
     private Integer carbs;
 
-    public Macro(int day, String food, Integer calories, Integer protein, Integer carbs) {
+    public Macro(int day, String food, Integer calories, Integer protein, Integer fat, Integer carbs) {
         this.day = day;
         this.food = food;
         this.calories = calories;
         this.protein = protein;
+        this.fat = fat;
         this.carbs = carbs;
     }
 
@@ -46,6 +47,8 @@ public class Macro {
     public Integer getProtein() {
         return protein;
     }
+
+    public Integer getFat() { return fat; }
 
     public Integer getCarbs() {
         return carbs;

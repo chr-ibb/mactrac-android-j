@@ -23,6 +23,10 @@
         android:title="Test 10000"
         app:showAsAction="never" />
 
+    <item android:id="@+id/action_test_today"
+        android:title="Test Today"
+        app:showAsAction="never" />
+
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"

@@ -104,6 +104,16 @@ public class DayFragment extends Fragment {
             }
         });
 
+        appBarViewModel.getTestTodayPressed().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(@NonNull final Boolean pressed) {
+                if (pressed) {
+                    dayViewModel.testToday();
+                    appBarViewModel.setTestTodayPressed(false);
+                }
+            }
+        });
+
     }
 
     private void navToAdd() {

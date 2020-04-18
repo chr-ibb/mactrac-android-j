@@ -81,8 +81,7 @@ public class DayScreenSlideFragment extends Fragment {
                     Macro current = macros.get(i);
                     calories += current.getCalories();
                     protein += current.getProtein();
-                    //TODO add fat
-                    //fat += current.getFat();
+                    fat += current.getFat();
                     carbs += current.getCarbs();
                 }
                 String totalCalories = calories + " Calories";
