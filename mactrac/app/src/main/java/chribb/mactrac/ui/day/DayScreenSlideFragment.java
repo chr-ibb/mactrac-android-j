@@ -51,6 +51,14 @@ public class DayScreenSlideFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //TODO consider view binding or data binding
+        TextView dateText = view.findViewById(R.id.date_text);
+        TextView relativeDayText = view.findViewById(R.id.relative_day_text);
+        TextView totalCaloriesText = view.findViewById(R.id.total_calories_text);
+        TextView totalProteinText = view.findViewById(R.id.total_protein_text);
+        TextView totalFatText = view.findViewById(R.id.total_fat_text);
+        TextView totalCarbsText = view.findViewById(R.id.total_carbs_text);
+
         RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
         final FoodListAdapter adapter = new FoodListAdapter(getContext());
         recyclerView.setAdapter(adapter);
@@ -64,16 +72,33 @@ public class DayScreenSlideFragment extends Fragment {
             public void onChanged(@Nullable final List<Macro> macros) {
                 // Update the cached copy of the words in the adapter.
                 adapter.setMacros(macros);
+                int calories = 0;
+                int protein = 0;
+                int fat = 0;
+                int carbs = 0;
+
+                for (int i = 0; i < macros.size(); i++) {
+                    Macro current = macros.get(i);
+                    calories += current.getCalories();
+                    protein += current.getProtein();
+                    //TODO add fat
+                    //fat += current.getFat();
+                    carbs += current.getCarbs();
+                }
+                String totalCalories = calories + " Calories";
+                totalCaloriesText.setText(totalCalories);
+                String totalProtein = protein + "g Protein";
+                totalProteinText.setText(totalProtein);
+                String totalFat = fat + "g Fat";
+                totalFatText.setText(totalFat);
+                String totalCarbs = carbs + "g Carbs";
+                totalCarbsText.setText(totalCarbs);
             }
         });
 
-        TextView dayOfWeekText = view.findViewById(R.id.day_of_week_text); //TODO consider view binding or data binding
-        TextView dateText = view.findViewById(R.id.date_text);
-        TextView relativeDayText = view.findViewById(R.id.relative_day_text);
-
-        dayOfWeekText.setText(dayViewModel.getDayOfWeekText(daysSinceEpoch));
         dateText.setText(dayViewModel.getDateText(daysSinceEpoch));
         relativeDayText.setText(dayViewModel.getRelativeDayText(daysSinceEpoch));
+
     }
 
 

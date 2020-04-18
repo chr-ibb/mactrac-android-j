@@ -21,4 +21,10 @@
     <string name="action_select_today">Today</string>
     <string name="action_search">Search</string>
     <string name="action_delete_all">Delete All</string>
+    <string name="date_text_placeholder">Someday, April 18</string>
+    <string name="relative_day_text_placeholder">Today</string>
+    <string name="total_calories_text_placeholder">xxxx Calories</string>
+    <string name="total_protein_text_placeholder">XXg Protein</string>
+    <string name="total_carbs_text_placeholder">XXg Carbs</string>
+    <string name="total_fat_text_placeholder">XXg Fat</string>
 </resources>

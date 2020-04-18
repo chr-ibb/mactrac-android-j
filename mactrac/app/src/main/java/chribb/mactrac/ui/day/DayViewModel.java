@@ -50,10 +50,20 @@ public class DayViewModel extends AndroidViewModel {
 
     public String getDateText(int daysSinceEpoch) {
         LocalDate day = LocalDate.ofEpochDay(daysSinceEpoch);
+        String dayOfWeek = day.getDayOfWeek().toString();
         String month = day.getMonth().toString();
         String dayOfMonth = Integer.toString(day.getDayOfMonth());
-        String year = Integer.toString(day.getYear());
-        return month + " " + dayOfMonth + ", " + year; //TODO function that makes this using extracted strings
+        String year = getYearString(day);
+        return dayOfWeek + ", " + month + " " + dayOfMonth + year; //TODO function that makes this using extracted strings
+    }
+
+    private String getYearString(LocalDate day) {
+        //if current year, don't show it (make the year an empty string)
+        if (day.getYear() == LocalDate.now().getYear()) {
+            return "";
+        } else {
+            return ", " + Integer.toString(day.getYear());
+        }
     }
 
     public String getRelativeDayText(int daysSinceEpoch) {

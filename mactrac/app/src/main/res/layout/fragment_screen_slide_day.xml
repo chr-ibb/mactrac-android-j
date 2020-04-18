@@ -6,14 +6,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/day_of_week_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:lineSpacingMultiplier="1.2"
-        android:text="Someday"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
     <TextView
         android:id="@+id/date_text"
@@ -21,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:lineSpacingMultiplier="1.2"
-        android:text="Month DD, YYYY"
+        android:text="@string/date_text_placeholder"
         android:textAlignment="center" />
 
     <TextView
@@ -29,8 +21,48 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:lineSpacingMultiplier="1.2"
-        android:text="Relative"
+        android:text="@string/relative_day_text_placeholder"
         android:textAlignment="center" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/total_calories_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/total_calories_text_placeholder"
+            android:textAlignment="center"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/total_protein_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/total_protein_text_placeholder"
+            android:textAlignment="center"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/total_fat_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/total_fat_text_placeholder"
+            android:textAlignment="center"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/total_carbs_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/total_carbs_text_placeholder"
+            android:textAlignment="center"
+            android:layout_weight="1" />
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
