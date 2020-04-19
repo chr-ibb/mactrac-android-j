@@ -12,6 +12,7 @@
         style="?android:textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="10dp"
         android:lineSpacingMultiplier="1.2"
         android:text="@string/date_text_placeholder"
         android:textAlignment="center" />
@@ -28,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="20dp">
+        android:paddingTop="10dp">
 
         <TextView
             android:id="@+id/total_calories_text"

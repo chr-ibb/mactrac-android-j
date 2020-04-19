@@ -13,7 +13,7 @@ import java.util.List;
 
 public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.FoodViewHolder> {
 
-    public class FoodViewHolder extends RecyclerView.ViewHolder {
+    public class FoodViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final TextView foodName;
         private final TextView foodCalories;
         private final TextView foodProtein;
@@ -27,6 +27,13 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.FoodVi
             foodProtein = itemView.findViewById(R.id.food_protein);
             foodFat = itemView.findViewById(R.id.food_fat);
             foodCarbs = itemView.findViewById(R.id.food_carbs);
+            itemView.setOnClickListener(this);
+        }
+
+
+        @Override
+        public void onClick(View v) {
+
         }
     }
 

@@ -84,6 +84,17 @@ public class DayFragment extends Fragment {
             }
         });
 
+        appBarViewModel.getEditPressed().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(@NonNull final Boolean pressed) {
+                if (pressed) {
+                    //TODO make the cards swipable and clickable for edit
+                    // Make a textview visable that says "swipe to delete, click to edit"
+                    appBarViewModel.setEditPressed(false);
+                }
+            }
+        });
+
         appBarViewModel.getDeleteAllPressed().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(@NonNull final Boolean pressed) {

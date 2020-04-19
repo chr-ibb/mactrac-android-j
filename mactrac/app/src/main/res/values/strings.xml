@@ -16,8 +16,6 @@
     <string name="menu_week">Week</string>
     <string name="menu_month">Month</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="action_select_today">Today</string>
     <string name="action_search">Search</string>
     <string name="action_delete_all">Delete All</string>
@@ -27,4 +25,5 @@
     <string name="total_protein_text_placeholder">XXg Protein</string>
     <string name="total_carbs_text_placeholder">XXg Carbs</string>
     <string name="total_fat_text_placeholder">XXg Fat</string>
+    <string name="action_edit">Edit</string>
 </resources>

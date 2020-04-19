@@ -60,6 +60,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_search_day:
                 appBarViewModel.setSearchPressed(true);
                 return true;
+            case R.id.action_edit_macros:
+                appBarViewModel.setEditPressed(true);
+                return true;
             case R.id.action_delete_all:
                 appBarViewModel.setDeleteAllPressed(true);
                 return true;

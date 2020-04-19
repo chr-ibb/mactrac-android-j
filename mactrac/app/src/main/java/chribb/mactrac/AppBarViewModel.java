@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModel;
 public class AppBarViewModel extends ViewModel {
     private MutableLiveData<Boolean> todayPressed;
     private MutableLiveData<Boolean> searchPressed;
+    private MutableLiveData<Boolean> editPressed;
     private MutableLiveData<Boolean> deleteAllPressed;
     private MutableLiveData<Boolean> test10000Pressed;
     private MutableLiveData<Boolean> testTodayPressed;
@@ -22,6 +23,7 @@ public class AppBarViewModel extends ViewModel {
         super();
         todayPressed = new MutableLiveData<>(false);
         searchPressed = new MutableLiveData<>(false);
+        editPressed = new MutableLiveData<>(false);
         deleteAllPressed = new MutableLiveData<>(false);
         test10000Pressed = new MutableLiveData<>(false);
         testTodayPressed = new MutableLiveData<>(false);
@@ -39,6 +41,13 @@ public class AppBarViewModel extends ViewModel {
     }
     public void setSearchPressed(Boolean pressed) {
         this.searchPressed.setValue(pressed);
+    }
+
+    public MutableLiveData<Boolean> getEditPressed() {
+        return editPressed;
+    }
+    public void setEditPressed(Boolean pressed) {
+        this.editPressed.setValue(pressed);
     }
 
     public MutableLiveData<Boolean> getDeleteAllPressed() {
