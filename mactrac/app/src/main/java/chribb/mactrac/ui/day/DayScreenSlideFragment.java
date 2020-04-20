@@ -24,10 +24,8 @@ public class DayScreenSlideFragment extends Fragment {
     private DayViewModel dayViewModel;
     private int daysSinceEpoch;
 
-    /**
-     * This is the standard way of "instantiating" a new fragment with data to pass in,
-     * since you cannot make a custom constructor for a fragment.
-     */
+    /* This is the standard way of "instantiating" a new fragment with data to pass in,
+     * since you cannot make a custom constructor for a fragment. */
     public static DayScreenSlideFragment newInstance(int daysSinceEpoch) {
         DayScreenSlideFragment fragment = new DayScreenSlideFragment();
 

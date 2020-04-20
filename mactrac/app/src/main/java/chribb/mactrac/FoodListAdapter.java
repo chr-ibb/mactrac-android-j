@@ -15,7 +15,7 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.FoodVi
 
     public class FoodViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final TextView foodName;
-        private final TextView foodCalories;
+        private final TextView foodCalories; //TODO Viewbinding
         private final TextView foodProtein;
         private final TextView foodFat;
         private final TextView foodCarbs;

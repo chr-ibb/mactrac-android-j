@@ -18,7 +18,7 @@ import androidx.navigation.Navigation;
 import chribb.mactrac.R;
 
 public class AddFragment extends Fragment {
-    private AddViewModel viewModel;
+    private AddViewModel viewModel; //TODO change to addViewModel
     private NavController navController;
 
     private EditText editName;
@@ -67,8 +67,9 @@ public class AddFragment extends Fragment {
         Integer protein = Integer.parseInt(editProtein.getText().toString());
         Integer fat = Integer.parseInt(editFat.getText().toString());
         Integer carbs = Integer.parseInt(editCarbs.getText().toString());
+        int order = viewModel.getOrder(day);
 
-        viewModel.insert(day, name, calories, protein, fat, carbs);
+        viewModel.insert(day, name, calories, protein, fat, carbs, order);
     }
 
     private void pop() {

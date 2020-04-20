@@ -14,14 +14,18 @@ public class Macro {
     private Integer protein;
     private Integer fat;
     private Integer carbs;
+    private int order;
+    private String note;
 
-    public Macro(int day, String food, Integer calories, Integer protein, Integer fat, Integer carbs) {
+    public Macro(int day, String food, Integer calories,
+                 Integer protein, Integer fat, Integer carbs, int order) {
         this.day = day;
         this.food = food;
         this.calories = calories;
         this.protein = protein;
         this.fat = fat;
         this.carbs = carbs;
+        this.order = order;
     }
 
     public void setId(int id) {
@@ -54,4 +58,15 @@ public class Macro {
         return carbs;
     }
 
+    public int getOrder() { return order; }
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
+    public String getNote() {
+        return note;
+    }
+    public void setNote(String note) {
+        this.note = note;
+    }
 }

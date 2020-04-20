@@ -20,7 +20,7 @@ public interface MacroDao {
     @Query("DELETE FROM macro_table WHERE id = :id")
     public void deleteFood(int id);
 
-    @Query("SELECT * from macro_table WHERE day = :day")
+    @Query("SELECT * from macro_table WHERE day = :day ORDER BY `order`")
     public LiveData<List<Macro>> loadFood(int day);
 
 //    @Query("SELECT * from macro_table") //TODO do i need this? its in more than one file
