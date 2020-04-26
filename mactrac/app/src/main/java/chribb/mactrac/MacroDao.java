@@ -23,6 +23,6 @@ public interface MacroDao {
     @Query("SELECT * from macro_table WHERE day = :day ORDER BY `order`")
     public LiveData<List<Macro>> loadFood(int day);
 
-//    @Query("SELECT * from macro_table") //TODO do i need this? its in more than one file
-//    public LiveData<List<Macro>> LoadAll();
+    @Query("SELECT COUNT(*) from macro_table WHERE day = :day")
+    public int countFood(int day);
 }

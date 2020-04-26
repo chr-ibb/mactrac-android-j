@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.List;
 
 import chribb.mactrac.AppBarViewModel;
@@ -31,6 +33,8 @@ public class DayScreenSlideFragment extends Fragment {
     private boolean isEditMode;
     private boolean isRecycleSwipeable;
     private boolean isRecycleDraggable;
+
+    private View thisView;
 
     private Macro deleteMacro;
     private int deletePosition;
@@ -71,6 +75,7 @@ public class DayScreenSlideFragment extends Fragment {
                 deletePosition = viewHolder.getAdapterPosition();
                 deleteMacro = adapter.getMacro(deletePosition);
                 dayViewModel.deleteFood(deleteMacro.getId());
+                showUndoSnackbar();
             }
 
             @Override
@@ -91,6 +96,8 @@ public class DayScreenSlideFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        thisView = view;
 
         appBarViewModel.getEditPressed().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
@@ -182,5 +189,16 @@ public class DayScreenSlideFragment extends Fragment {
         isEditMode = false;
         isRecycleSwipeable = false;
         isRecycleDraggable = false;
+    }
+
+    private void showUndoSnackbar() {
+        //TODO extract strings
+        String snackString = "Deleted " + deleteMacro.getFood();
+        Snackbar snackbar = Snackbar.make(thisView, snackString, Snackbar.LENGTH_LONG);
+        snackbar.setAction("Click to Undo", f -> undoDelete());
+        snackbar.show();
+    }
+    private void undoDelete() {
+        dayViewModel.insert(deleteMacro);
     }
 }

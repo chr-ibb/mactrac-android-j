@@ -27,6 +27,9 @@ public class DayViewModel extends AndroidViewModel {
                        Integer protein, Integer fat, Integer carbs, int order) {
         repo.insert(new Macro(day, food, calories, protein, fat, carbs, order));
     }
+    public void insert(Macro macro) {
+        repo.insert(macro);
+    }
 
     public void deleteAll() { repo.deleteAll(); }
 
