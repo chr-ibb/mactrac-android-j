@@ -68,12 +68,8 @@ public class DayScreenSlideFragment extends Fragment {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 deletePosition = viewHolder.getAdapterPosition();
-                adapter.notifyItemRemoved(deletePosition);
                 deleteMacro = adapter.getMacro(deletePosition);
                 dayViewModel.deleteFood(deleteMacro.getId());
-                //TODO this messes up the animations, and now I'm realizing that Maybe I should
-                // be using listadapter instead, which handles when to redraw the recyclerview
-                // instead of just always redrawing the entire thing like I'm doing...
             }
 
             @Override
@@ -87,7 +83,7 @@ public class DayScreenSlideFragment extends Fragment {
             }
         });
 
-        return (ViewGroup) inflater.inflate(
+        return inflater.inflate(
                 R.layout.fragment_screen_slide_day, container, false);
     }
 
@@ -125,8 +121,9 @@ public class DayScreenSlideFragment extends Fragment {
         dayViewModel.loadFood(daysSinceEpoch).observe(getViewLifecycleOwner(), new Observer<List<Macro>>() {
             @Override
             public void onChanged(@Nullable final List<Macro> macros) {
-                // Update the cached copy of the words in the adapter.
-                adapter.setMacros(macros);
+                // Update the List of macros in ListAdapter
+                adapter.submitList(macros);
+
                 int calories = 0;
                 int protein = 0;
                 int fat = 0;
