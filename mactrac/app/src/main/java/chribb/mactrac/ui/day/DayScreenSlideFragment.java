@@ -34,6 +34,7 @@ public class DayScreenSlideFragment extends Fragment {
 
     private Macro deleteMacro;
     private int deletePosition;
+    private TextView editModeTextView;
 
     /* This is the standard way of "instantiating" a new fragment with data to pass in,
      * since you cannot make a custom constructor for a fragment. */
@@ -54,10 +55,10 @@ public class DayScreenSlideFragment extends Fragment {
         dayViewModel = new ViewModelProvider(requireParentFragment()).get(DayViewModel.class);
         appBarViewModel = new ViewModelProvider(requireActivity()).get(AppBarViewModel.class);
 
+        assert getArguments() != null;
+        daysSinceEpoch = getArguments().getInt("daysSinceEpoch", 0);
+
         //TODO can i put this somewhere else?
-        isEditMode = false;
-        isRecycleSwipeable = false;
-        isRecycleDraggable = false;
         helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP
                 | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -94,7 +95,7 @@ public class DayScreenSlideFragment extends Fragment {
         appBarViewModel.getEditPressed().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(@NonNull final Boolean pressed) {
-                if (pressed) {
+                if (pressed && dayViewModel.getDayOnScreen() == daysSinceEpoch) {
                     toggleEditMode();
                     appBarViewModel.setEditPressed(false);
                 }
@@ -109,14 +110,13 @@ public class DayScreenSlideFragment extends Fragment {
         TextView totalFatText = view.findViewById(R.id.total_fat_text);
         TextView totalCarbsText = view.findViewById(R.id.total_carbs_text);
 
+        editModeTextView = view.findViewById(R.id.edit_mode_text);
+
         RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
         adapter = new FoodListAdapter(getContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         helper.attachToRecyclerView(recyclerView);
-
-        assert getArguments() != null;
-        daysSinceEpoch = getArguments().getInt("daysSinceEpoch", 0);
 
         dayViewModel.loadFood(daysSinceEpoch).observe(getViewLifecycleOwner(), new Observer<List<Macro>>() {
             @Override
@@ -150,6 +150,7 @@ public class DayScreenSlideFragment extends Fragment {
         dateText.setText(dayViewModel.getDateText(daysSinceEpoch));
         relativeDayText.setText(dayViewModel.getRelativeDayText(daysSinceEpoch));
 
+        disableEditMode();
     }
 
     @Override
@@ -169,12 +170,15 @@ public class DayScreenSlideFragment extends Fragment {
     public void enableEditMode() {
         //TODO  Make a textview visable that says "swipe to delete, click to edit"
         // change layout to like highlight the section to be edited. make it noticably different
+        // maybe increase the "height" of each recycler item, like its floating higher now (shadow)
+        editModeTextView.setVisibility(View.VISIBLE);
         isEditMode = true;
         isRecycleSwipeable = true;
         isRecycleDraggable = true;
     }
     public void disableEditMode() {
         //TODO get rid of textView, change layout back
+        editModeTextView.setVisibility(View.GONE);
         isEditMode = false;
         isRecycleSwipeable = false;
         isRecycleDraggable = false;

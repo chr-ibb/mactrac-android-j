@@ -53,7 +53,7 @@ public class FoodListAdapter extends ListAdapter<Macro, FoodListAdapter.FoodView
 
                 @Override
                 public boolean areContentsTheSame(@NonNull Macro oldItem, @NonNull Macro newItem) {
-                    //return oldItem.equals(newItem) // you must implement equals first.
+                    //TODO return oldItem.equals(newItem) // you must implement equals first.
                     return false;
                 }
             };
@@ -84,4 +84,14 @@ public class FoodListAdapter extends ListAdapter<Macro, FoodListAdapter.FoodView
     public Macro getMacro(int position) {
         return getItem(position);
     }
+
+    //TODO Do I need to Override getItemCount?
+//    // getItemCount() is called many times, and when it is first called,
+//    // macros has not been updated (means initially, it's null, and we can't return null).
+//    @Override
+//    public int getItemCount() {
+//        if (macros != null)
+//            return macros.size();
+//        else return 0;
+//    }
 }
