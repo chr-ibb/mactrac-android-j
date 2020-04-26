@@ -11,18 +11,29 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import chribb.mactrac.AppBarViewModel;
 import chribb.mactrac.FoodListAdapter;
 import chribb.mactrac.Macro;
 import chribb.mactrac.R;
 
 public class DayScreenSlideFragment extends Fragment {
     private DayViewModel dayViewModel;
+    private AppBarViewModel appBarViewModel;
+    private FoodListAdapter adapter;
     private int daysSinceEpoch;
+    private ItemTouchHelper helper;
+    private boolean isEditMode;
+    private boolean isRecycleSwipeable;
+    private boolean isRecycleDraggable;
+
+    private Macro deleteMacro;
+    private int deletePosition;
 
     /* This is the standard way of "instantiating" a new fragment with data to pass in,
      * since you cannot make a custom constructor for a fragment. */
@@ -41,6 +52,41 @@ public class DayScreenSlideFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         dayViewModel = new ViewModelProvider(requireParentFragment()).get(DayViewModel.class);
+        appBarViewModel = new ViewModelProvider(requireActivity()).get(AppBarViewModel.class);
+
+        //TODO can i put this somewhere else?
+        isEditMode = false;
+        isRecycleSwipeable = false;
+        isRecycleDraggable = false;
+        helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP
+                | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                deletePosition = viewHolder.getAdapterPosition();
+                adapter.notifyItemRemoved(deletePosition);
+                deleteMacro = adapter.getMacro(deletePosition);
+                dayViewModel.deleteFood(deleteMacro.getId());
+                //TODO this messes up the animations, and now I'm realizing that Maybe I should
+                // be using listadapter instead, which handles when to redraw the recyclerview
+                // instead of just always redrawing the entire thing like I'm doing...
+            }
+
+            @Override
+            public boolean isItemViewSwipeEnabled() {
+                return isRecycleSwipeable;
+            }
+
+            @Override
+            public boolean isLongPressDragEnabled() {
+                return isRecycleDraggable;
+            }
+        });
+
         return (ViewGroup) inflater.inflate(
                 R.layout.fragment_screen_slide_day, container, false);
     }
@@ -48,6 +94,16 @@ public class DayScreenSlideFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        appBarViewModel.getEditPressed().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(@NonNull final Boolean pressed) {
+                if (pressed) {
+                    toggleEditMode();
+                    appBarViewModel.setEditPressed(false);
+                }
+            }
+        });
 
         //TODO consider view binding or data binding
         TextView dateText = view.findViewById(R.id.date_text);
@@ -58,9 +114,10 @@ public class DayScreenSlideFragment extends Fragment {
         TextView totalCarbsText = view.findViewById(R.id.total_carbs_text);
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
-        final FoodListAdapter adapter = new FoodListAdapter(getContext());
+        adapter = new FoodListAdapter(getContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        helper.attachToRecyclerView(recyclerView);
 
         assert getArguments() != null;
         daysSinceEpoch = getArguments().getInt("daysSinceEpoch", 0);
@@ -98,5 +155,31 @@ public class DayScreenSlideFragment extends Fragment {
 
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        //disable edit mode when you leave this 'day'
+        disableEditMode();
+    }
 
+    public void toggleEditMode() {
+        if (isEditMode) {
+            disableEditMode();
+        } else {
+            enableEditMode();
+        }
+    }
+    public void enableEditMode() {
+        //TODO  Make a textview visable that says "swipe to delete, click to edit"
+        // change layout to like highlight the section to be edited. make it noticably different
+        isEditMode = true;
+        isRecycleSwipeable = true;
+        isRecycleDraggable = true;
+    }
+    public void disableEditMode() {
+        //TODO get rid of textView, change layout back
+        isEditMode = false;
+        isRecycleSwipeable = false;
+        isRecycleDraggable = false;
+    }
 }

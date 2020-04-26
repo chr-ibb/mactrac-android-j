@@ -8,11 +8,14 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -36,7 +39,7 @@ public class DayFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         dayViewModel = new ViewModelProvider(this).get(DayViewModel.class);
-        appBarViewModel = new ViewModelProvider(getActivity()).get(AppBarViewModel.class);
+        appBarViewModel = new ViewModelProvider(requireActivity()).get(AppBarViewModel.class);
         fab = requireActivity().findViewById(R.id.fab);
         fab.setVisibility(View.VISIBLE);
         View view = inflater.inflate(R.layout.fragment_day, container, false);
@@ -53,6 +56,9 @@ public class DayFragment extends Fragment {
         pagerAdapter = new ScreenSlidePagerAdapter(this);
         viewPager.setAdapter(pagerAdapter);
         viewPager.setOffscreenPageLimit(3);
+
+        //TODO unregister OnPageChangeCallback in onDestroy of this fragment?
+        // also if I'm not using dayViewModel.getDayOnScreen, this can just be deleted.
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
@@ -64,6 +70,7 @@ public class DayFragment extends Fragment {
         //TODO probably something wrong here
         setDayOnScreen(dayViewModel.getToday(), false);
 
+        //FAB on click will make itself invisible, and then navigate to Add Macro fragment
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,24 +80,12 @@ public class DayFragment extends Fragment {
         });
 
         /* * * App Bar button Observers * * */
-
         appBarViewModel.getTodayPressed().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(@NonNull final Boolean pressed) {
                 if (pressed) {
                    setDayOnScreen(dayViewModel.getToday(), true);
                    appBarViewModel.setTodayPressed(false);
-                }
-            }
-        });
-
-        appBarViewModel.getEditPressed().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
-            @Override
-            public void onChanged(@NonNull final Boolean pressed) {
-                if (pressed) {
-                    //TODO make the cards swipable and clickable for edit
-                    // Make a textview visable that says "swipe to delete, click to edit"
-                    appBarViewModel.setEditPressed(false);
                 }
             }
         });
@@ -136,7 +131,6 @@ public class DayFragment extends Fragment {
     private void setDayOnScreen(int day, boolean isSmooth) {
         viewPager.setCurrentItem(day, isSmooth);
     }
-
 
     private class ScreenSlidePagerAdapter extends FragmentStateAdapter {
         public ScreenSlidePagerAdapter(Fragment fa) {

@@ -53,6 +53,8 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.FoodVi
         if (macros != null) {
             Macro current = macros.get(position);
 
+            //TODO extract the strings
+
             holder.foodName.setText(current.getFood());
             String cal = current.getCalories() + " Calories";
             holder.foodCalories.setText(cal);
@@ -73,6 +75,10 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.FoodVi
     public void setMacros(List<Macro> macros){
         this.macros = macros;
         notifyDataSetChanged();
+    }
+
+    public Macro getMacro(int position) {
+        return macros.get(position);
     }
 
     // getItemCount() is called many times, and when it is first called,
