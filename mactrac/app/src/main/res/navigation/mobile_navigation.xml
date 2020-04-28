@@ -24,6 +24,9 @@
         <argument
             android:name="day"
             app:argType="integer" />
+        <argument
+            android:name="macros_on_day"
+            app:argType="integer" />
         <action
             android:id="@+id/action_nav_add_to_nav_day"
             app:destination="@id/nav_day"

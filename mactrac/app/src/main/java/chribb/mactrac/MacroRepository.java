@@ -46,7 +46,7 @@ public class MacroRepository {
         return macroDao.loadFood(day);
     }
 
-    public int countFood(Integer day) {
+    public LiveData<Integer> countFood(Integer day) {
         //TODO does this need to be on another thread? why is the one above fine
         return macroDao.countFood(day);
     }

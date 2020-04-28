@@ -24,5 +24,5 @@ public interface MacroDao {
     public LiveData<List<Macro>> loadFood(int day);
 
     @Query("SELECT COUNT(*) from macro_table WHERE day = :day")
-    public int countFood(int day);
+    public LiveData<Integer> countFood(int day);
 }

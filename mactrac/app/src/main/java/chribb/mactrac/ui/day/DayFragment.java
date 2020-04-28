@@ -59,6 +59,8 @@ public class DayFragment extends Fragment {
 
         //TODO unregister OnPageChangeCallback in onDestroy of this fragment?
         // also if I'm not using dayViewModel.getDayOnScreen, this can just be deleted.
+        // Now I'm not sure if I even need to unregister it unless I want to keep using the pager
+        // without it doing the callback. 
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
@@ -67,7 +69,8 @@ public class DayFragment extends Fragment {
             }
         });
 
-        //TODO probably something wrong here
+        //TODO This makes it so it will only ever open to current day when view is created
+        // could be a problem if you want it to open to previously open day.
         setDayOnScreen(dayViewModel.getToday(), false);
 
         //FAB on click will make itself invisible, and then navigate to Add Macro fragment
@@ -78,6 +81,16 @@ public class DayFragment extends Fragment {
                 navToAdd();
             }
         });
+
+        /* Observers */
+        dayViewModel.countFood(dayViewModel.getDayOnScreen()).observe(getViewLifecycleOwner(),
+                new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer numberOfMacros) {
+                dayViewModel.setMacrosOnDay(numberOfMacros);
+            }
+        });
+
 
         /* * * App Bar button Observers * * */
         appBarViewModel.getTodayPressed().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
@@ -124,7 +137,8 @@ public class DayFragment extends Fragment {
 
     private void navToAdd() {
         //TODO make a swipe up animation
-        NavDirections action = DayFragmentDirections.actionNavDayToNavAdd(viewPager.getCurrentItem());
+        NavDirections action = DayFragmentDirections
+                .actionNavDayToNavAdd(viewPager.getCurrentItem(), dayViewModel.getMacrosOnDay());
         navController.navigate(action);
     }
 

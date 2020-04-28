@@ -67,7 +67,7 @@ public class AddFragment extends Fragment {
         Integer protein = Integer.parseInt(editProtein.getText().toString());
         Integer fat = Integer.parseInt(editFat.getText().toString());
         Integer carbs = Integer.parseInt(editCarbs.getText().toString());
-        int order = viewModel.getOrder(day);
+        int order = AddFragmentArgs.fromBundle(getArguments()).getMacrosOnDay();
 
         viewModel.insert(day, name, calories, protein, fat, carbs, order);
     }

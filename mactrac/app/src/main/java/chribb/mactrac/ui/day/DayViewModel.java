@@ -2,8 +2,10 @@ package chribb.mactrac.ui.day;
 
 import android.app.Application;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,6 +17,9 @@ import chribb.mactrac.MacroRepository;
 public class DayViewModel extends AndroidViewModel {
     private MacroRepository repo;
     private Integer dayOnScreen; //TODO not sure if useful
+    private int macrosOnDay;
+
+    //repo.countFood(day)
 
     public DayViewModel(Application application) {
         super(application);
@@ -22,7 +27,6 @@ public class DayViewModel extends AndroidViewModel {
     }
 
         /* Repo Methods */
-
     public void insert(Integer day, String food, Integer calories,
                        Integer protein, Integer fat, Integer carbs, int order) {
         repo.insert(new Macro(day, food, calories, protein, fat, carbs, order));
@@ -39,6 +43,10 @@ public class DayViewModel extends AndroidViewModel {
 
     LiveData<List<Macro>> loadFood(Integer day) {
         return repo.loadFood(day);
+    }
+
+    LiveData<Integer> countFood(Integer day) {
+        return repo.countFood(day);
     }
 
 
@@ -100,6 +108,14 @@ public class DayViewModel extends AndroidViewModel {
 
     public void setDayOnScreen(Integer dayOnScreen) {
         this.dayOnScreen = dayOnScreen;
+    }
+
+    public int getMacrosOnDay() {
+        return macrosOnDay;
+    }
+
+    public void setMacrosOnDay(int macrosOnDay) {
+        this.macrosOnDay = macrosOnDay;
     }
 
     public void test10000() {
