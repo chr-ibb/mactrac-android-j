@@ -30,13 +30,19 @@ public class MacroRepository {
         });
     }
 
+    public void updateOrder(MacroOrder order) {
+        MacroRoomDatabase.databaseWriteExecutor.execute(() -> {
+            macroDao.updateOrder(order);
+        });
+    }
+
     public void deleteAll() {
         MacroRoomDatabase.databaseWriteExecutor.execute(() -> {
             macroDao.deleteAll();
         });
     }
 
-    public void deleteFood(int id) {
+    public void deleteFood(long id) {
         MacroRoomDatabase.databaseWriteExecutor.execute(() -> {
             macroDao.deleteFood(id);
         });

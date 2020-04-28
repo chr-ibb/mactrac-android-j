@@ -22,6 +22,7 @@ import java.util.List;
 import chribb.mactrac.AppBarViewModel;
 import chribb.mactrac.FoodListAdapter;
 import chribb.mactrac.Macro;
+import chribb.mactrac.MacroOrder;
 import chribb.mactrac.R;
 
 public class DayScreenSlideFragment extends Fragment {
@@ -66,7 +67,23 @@ public class DayScreenSlideFragment extends Fragment {
         helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP
                 | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            public boolean onMove(@NonNull RecyclerView recyclerView,
+                                  @NonNull RecyclerView.ViewHolder viewHolder,
+                                  @NonNull RecyclerView.ViewHolder target) {
+                int from = viewHolder.getAdapterPosition();
+                int to = target.getAdapterPosition();
+                Macro fromMacro = adapter.getMacro(from);
+                Macro toMacro = adapter.getMacro(to);
+
+                MacroOrder newFrom = new MacroOrder(fromMacro.getId(), toMacro.getOrder());
+                MacroOrder newTo = new MacroOrder(toMacro.getId(), fromMacro.getOrder());
+
+                dayViewModel.updateOrder(newFrom);
+                dayViewModel.updateOrder(newTo);
+                //TODO damn this is tough. this is super buggy right now.
+                // The solution might be to not change anything here, but instead do it in the
+                // onRowMoved in RecyclerView. and you can do a for loop to shift everything over
+
                 return false;
             }
 

@@ -60,7 +60,7 @@ public class DayFragment extends Fragment {
         //TODO unregister OnPageChangeCallback in onDestroy of this fragment?
         // also if I'm not using dayViewModel.getDayOnScreen, this can just be deleted.
         // Now I'm not sure if I even need to unregister it unless I want to keep using the pager
-        // without it doing the callback. 
+        // without it doing the callback.
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {

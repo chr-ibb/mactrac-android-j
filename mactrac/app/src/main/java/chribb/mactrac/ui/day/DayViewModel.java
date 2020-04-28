@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Random;
 
 import chribb.mactrac.Macro;
+import chribb.mactrac.MacroOrder;
 import chribb.mactrac.MacroRepository;
 
 public class DayViewModel extends AndroidViewModel {
@@ -37,7 +38,7 @@ public class DayViewModel extends AndroidViewModel {
 
     public void deleteAll() { repo.deleteAll(); }
 
-    public void deleteFood(int id) {
+    public void deleteFood(long id) {
         repo.deleteFood(id);
     }
 
@@ -47,6 +48,10 @@ public class DayViewModel extends AndroidViewModel {
 
     LiveData<Integer> countFood(Integer day) {
         return repo.countFood(day);
+    }
+
+    public void updateOrder(MacroOrder order) {
+        repo.updateOrder(order);
     }
 
 

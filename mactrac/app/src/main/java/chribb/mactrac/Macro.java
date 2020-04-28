@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "macro_table")
 public class Macro {
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    private long id;
 
     private int day;
     private String food;
@@ -28,11 +28,11 @@ public class Macro {
         this.order = order;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

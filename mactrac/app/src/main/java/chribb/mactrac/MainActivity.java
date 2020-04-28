@@ -86,3 +86,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
+
+//TODO notes:
+// Using Room to store data on the device is really limiting the way I approach the code.
+// I'm not using the data structures I want. I'm not saving a table of all the days with macros
+// and linking those days to tables with all of the macros for that day...
+// etc. Thinking about it though, you always have to save the data to some database and then load
+// it back to your Linked List or Trie or whatever you want it to be...
+// Still my current philosophy, being my first app, is to get it working first.
