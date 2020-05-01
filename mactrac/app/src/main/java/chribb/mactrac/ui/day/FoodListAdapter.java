@@ -1,4 +1,4 @@
-package chribb.mactrac;
+package chribb.mactrac.ui.day;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
+
+import chribb.mactrac.data.Macro;
+import chribb.mactrac.R;
 
 public class FoodListAdapter extends ListAdapter<Macro, FoodListAdapter.FoodViewHolder> {
 

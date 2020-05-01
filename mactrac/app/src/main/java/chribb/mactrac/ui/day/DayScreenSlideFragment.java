@@ -20,9 +20,8 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.List;
 
 import chribb.mactrac.AppBarViewModel;
-import chribb.mactrac.FoodListAdapter;
-import chribb.mactrac.Macro;
-import chribb.mactrac.MacroOrder;
+import chribb.mactrac.data.Macro;
+import chribb.mactrac.data.MacroOrder;
 import chribb.mactrac.R;
 
 public class DayScreenSlideFragment extends Fragment {
@@ -43,7 +42,7 @@ public class DayScreenSlideFragment extends Fragment {
 
     /* This is the standard way of "instantiating" a new fragment with data to pass in,
      * since you cannot make a custom constructor for a fragment. */
-    public static DayScreenSlideFragment newInstance(int daysSinceEpoch) {
+    static DayScreenSlideFragment newInstance(int daysSinceEpoch) {
         DayScreenSlideFragment fragment = new DayScreenSlideFragment();
 
         Bundle args = new Bundle();
@@ -184,14 +183,14 @@ public class DayScreenSlideFragment extends Fragment {
         disableEditMode();
     }
 
-    public void toggleEditMode() {
+    private void toggleEditMode() {
         if (isEditMode) {
             disableEditMode();
         } else {
             enableEditMode();
         }
     }
-    public void enableEditMode() {
+    private void enableEditMode() {
         //TODO  Make a textview visable that says "swipe to delete, click to edit"
         // change layout to like highlight the section to be edited. make it noticably different
         // maybe increase the "height" of each recycler item, like its floating higher now (shadow)
@@ -200,7 +199,7 @@ public class DayScreenSlideFragment extends Fragment {
         isRecycleSwipeable = true;
         isRecycleDraggable = true;
     }
-    public void disableEditMode() {
+    private void disableEditMode() {
         //TODO get rid of textView, change layout back
         editModeTextView.setVisibility(View.GONE);
         isEditMode = false;

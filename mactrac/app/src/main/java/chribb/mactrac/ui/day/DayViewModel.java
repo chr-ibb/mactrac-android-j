@@ -2,25 +2,21 @@ package chribb.mactrac.ui.day;
 
 import android.app.Application;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Random;
 
-import chribb.mactrac.Macro;
-import chribb.mactrac.MacroOrder;
-import chribb.mactrac.MacroRepository;
+import chribb.mactrac.data.Macro;
+import chribb.mactrac.data.MacroOrder;
+import chribb.mactrac.data.MacroRepository;
 
 public class DayViewModel extends AndroidViewModel {
     private MacroRepository repo;
-    private Integer dayOnScreen; //TODO not sure if useful
+    private Integer dayOnScreen; //TODO not sure if necessary
     private int macrosOnDay;
-
-    //repo.countFood(day)
 
     public DayViewModel(Application application) {
         super(application);
@@ -28,17 +24,17 @@ public class DayViewModel extends AndroidViewModel {
     }
 
         /* Repo Methods */
-    public void insert(Integer day, String food, Integer calories,
+    void insert(Integer day, String food, Integer calories,
                        Integer protein, Integer fat, Integer carbs, int order) {
         repo.insert(new Macro(day, food, calories, protein, fat, carbs, order));
     }
-    public void insert(Macro macro) {
+    void insert(Macro macro) {
         repo.insert(macro);
     }
 
-    public void deleteAll() { repo.deleteAll(); }
+    void deleteAll() { repo.deleteAll(); }
 
-    public void deleteFood(long id) {
+    void deleteFood(long id) {
         repo.deleteFood(id);
     }
 
@@ -50,22 +46,22 @@ public class DayViewModel extends AndroidViewModel {
         return repo.countFood(day);
     }
 
-    public void updateOrder(MacroOrder order) {
+    void updateOrder(MacroOrder order) {
         repo.updateOrder(order);
     }
 
 
         /* public methods */
 
-    public int getToday() {
+    int getToday() {
         return (int) LocalDate.now().toEpochDay();
     }
 
-    public String getDayOfWeekText(int daysSinceEpoch) {
-        return LocalDate.ofEpochDay(daysSinceEpoch).getDayOfWeek().toString();
-    }
+//    public String getDayOfWeekText(int daysSinceEpoch) {
+//        return LocalDate.ofEpochDay(daysSinceEpoch).getDayOfWeek().toString();
+//    }
 
-    public String getDateText(int daysSinceEpoch) {
+    String getDateText(int daysSinceEpoch) {
         LocalDate day = LocalDate.ofEpochDay(daysSinceEpoch);
         String dayOfWeek = day.getDayOfWeek().toString();
         String month = day.getMonth().toString();
@@ -79,11 +75,11 @@ public class DayViewModel extends AndroidViewModel {
         if (day.getYear() == LocalDate.now().getYear()) {
             return "";
         } else {
-            return ", " + Integer.toString(day.getYear());
+            return ", " + day.getYear();
         }
     }
 
-    public String getRelativeDayText(int daysSinceEpoch) {
+    String getRelativeDayText(int daysSinceEpoch) {
         String relativeDay = "today";
         int relative =   daysSinceEpoch - (int) LocalDate.now().toEpochDay();
 
@@ -107,23 +103,23 @@ public class DayViewModel extends AndroidViewModel {
         return relativeDay;
     }
 
-    public Integer getDayOnScreen() {
+    Integer getDayOnScreen() {
         return dayOnScreen;
     }
 
-    public void setDayOnScreen(Integer dayOnScreen) {
+    void setDayOnScreen(Integer dayOnScreen) {
         this.dayOnScreen = dayOnScreen;
     }
 
-    public int getMacrosOnDay() {
+    int getMacrosOnDay() {
         return macrosOnDay;
     }
 
-    public void setMacrosOnDay(int macrosOnDay) {
+    void setMacrosOnDay(int macrosOnDay) {
         this.macrosOnDay = macrosOnDay;
     }
 
-    public void test10000() {
+    void test10000() {
         Random r = new Random();
         int N = 10000;
 
@@ -139,7 +135,7 @@ public class DayViewModel extends AndroidViewModel {
         }
     }
 
-    public void testToday() {
+    void testToday() {
         Random r = new Random();
         int N = 10;
         int d = dayOnScreen;

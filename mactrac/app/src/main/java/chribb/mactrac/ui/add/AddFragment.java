@@ -18,7 +18,8 @@ import androidx.navigation.Navigation;
 import chribb.mactrac.R;
 
 public class AddFragment extends Fragment {
-    private AddViewModel viewModel; //TODO change to addViewModel
+    private AddViewModel addViewModel;
+
     private NavController navController;
 
     private EditText editName;
@@ -30,7 +31,7 @@ public class AddFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        viewModel = new ViewModelProvider(this).get(AddViewModel.class);
+        addViewModel = new ViewModelProvider(this).get(AddViewModel.class);
         View view = inflater.inflate(R.layout.fragment_add, container, false);
         return view;
     }
@@ -69,7 +70,7 @@ public class AddFragment extends Fragment {
         Integer carbs = Integer.parseInt(editCarbs.getText().toString());
         int order = AddFragmentArgs.fromBundle(getArguments()).getMacrosOnDay();
 
-        viewModel.insert(day, name, calories, protein, fat, carbs, order);
+        addViewModel.insert(day, name, calories, protein, fat, carbs, order);
     }
 
     private void pop() {

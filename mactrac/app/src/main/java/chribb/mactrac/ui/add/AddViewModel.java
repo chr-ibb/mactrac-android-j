@@ -3,14 +3,9 @@ package chribb.mactrac.ui.add;
 import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 
-import java.util.List;
-
-import javax.crypto.Mac;
-
-import chribb.mactrac.Macro;
-import chribb.mactrac.MacroRepository;
+import chribb.mactrac.data.Macro;
+import chribb.mactrac.data.MacroRepository;
 
 
 public class AddViewModel extends AndroidViewModel {

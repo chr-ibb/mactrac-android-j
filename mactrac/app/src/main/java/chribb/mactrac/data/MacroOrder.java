@@ -1,6 +1,7 @@
-package chribb.mactrac;
+package chribb.mactrac.data;
 
 public class MacroOrder {
+    //TODO delete this
     long id;
     int order;
 

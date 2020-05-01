@@ -1,4 +1,4 @@
-package chribb.mactrac;
+package chribb.mactrac.data;
 
 import android.app.Application;
 

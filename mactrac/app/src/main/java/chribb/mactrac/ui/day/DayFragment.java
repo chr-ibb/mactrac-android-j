@@ -8,14 +8,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -27,40 +24,43 @@ import chribb.mactrac.R;
 public class DayFragment extends Fragment {
     private DayViewModel dayViewModel;
     private AppBarViewModel appBarViewModel;
+
     private NavController navController;
+
     private ViewPager2 viewPager;
-    private FragmentStateAdapter pagerAdapter;
     private FloatingActionButton fab;
 
     //This is the number of days between January 1 1970 and January 1 2070
+    //TODO Probably move this somewhere else
     private static final int NUM_DAYS =  36525;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
         dayViewModel = new ViewModelProvider(this).get(DayViewModel.class);
         appBarViewModel = new ViewModelProvider(requireActivity()).get(AppBarViewModel.class);
+
         fab = requireActivity().findViewById(R.id.fab);
         fab.setVisibility(View.VISIBLE);
+
         View view = inflater.inflate(R.layout.fragment_day, container, false);
         return view;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
         super.onViewCreated(view, savedInstanceState);
 
         navController = Navigation.findNavController(view);
 
         viewPager = view.findViewById(R.id.pager);
-        pagerAdapter = new ScreenSlidePagerAdapter(this);
+        FragmentStateAdapter pagerAdapter = new ScreenSlidePagerAdapter(this);
         viewPager.setAdapter(pagerAdapter);
         viewPager.setOffscreenPageLimit(3);
-
-        //TODO unregister OnPageChangeCallback in onDestroy of this fragment?
-        // also if I'm not using dayViewModel.getDayOnScreen, this can just be deleted.
-        // Now I'm not sure if I even need to unregister it unless I want to keep using the pager
-        // without it doing the callback.
+        //TODO Unregister OnPageChangeCallback in onDestroy of this fragment? do i need dayOnScreen?
+        // When do I need dayOnScreen where I cant just use viewpager.getCurrentItem()?
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
@@ -69,8 +69,7 @@ public class DayFragment extends Fragment {
             }
         });
 
-        //TODO This makes it so it will only ever open to current day when view is created
-        // could be a problem if you want it to open to previously open day.
+        //TODO Will only ever open to current day when view is created, could be a problem.
         setDayOnScreen(dayViewModel.getToday(), false);
 
         //FAB on click will make itself invisible, and then navigate to Add Macro fragment
@@ -82,7 +81,12 @@ public class DayFragment extends Fragment {
             }
         });
 
-        /* Observers */
+        /* * * Observers * * */
+
+        //Observes the number of macros in the day on screen, for sending to AddFragment
+        //TODO would be more efficient to just set this whenever you change day on screen,
+        // and add to it / subtract from it when you add / delete a macro... this is simpler though
+        // real talk though I need to just make an Async task and get it in AddFragment...
         dayViewModel.countFood(dayViewModel.getDayOnScreen()).observe(getViewLifecycleOwner(),
                 new Observer<Integer>() {
             @Override
@@ -91,8 +95,9 @@ public class DayFragment extends Fragment {
             }
         });
 
-
         /* * * App Bar button Observers * * */
+
+        // smoothly slides to today when the 'today' button on app bar is pressed
         appBarViewModel.getTodayPressed().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(@NonNull final Boolean pressed) {
@@ -103,6 +108,7 @@ public class DayFragment extends Fragment {
             }
         });
 
+        //Deletes all Macros when Delete All is pressed in overflow
         appBarViewModel.getDeleteAllPressed().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(@NonNull final Boolean pressed) {
@@ -113,6 +119,7 @@ public class DayFragment extends Fragment {
             }
         });
 
+        //Adds 10000 random Macros to random days when button is pressed in overflow, for testing.
         appBarViewModel.getTest10000Pressed().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(@NonNull final Boolean pressed) {
@@ -123,6 +130,7 @@ public class DayFragment extends Fragment {
             }
         });
 
+        // Adds 10 Macros to the day on screen, for testing.
         appBarViewModel.getTestTodayPressed().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(@NonNull final Boolean pressed) {
@@ -132,9 +140,12 @@ public class DayFragment extends Fragment {
                 }
             }
         });
-
     }
 
+    /**
+     * Navigates from DayFragment to AddFragment, for adding macros.
+     * Passes current day on screen and number of macros on the day
+     */
     private void navToAdd() {
         //TODO make a swipe up animation
         NavDirections action = DayFragmentDirections
@@ -142,12 +153,21 @@ public class DayFragment extends Fragment {
         navController.navigate(action);
     }
 
+    /**
+     * Changes the day that is visible on the screen.
+     * @param day Day to put on screen (counting from Unix Epoch)
+     * @param isSmooth true: smoothly slide to the day. false: instant transition
+     */
     private void setDayOnScreen(int day, boolean isSmooth) {
         viewPager.setCurrentItem(day, isSmooth);
     }
 
-    private class ScreenSlidePagerAdapter extends FragmentStateAdapter {
-        public ScreenSlidePagerAdapter(Fragment fa) {
+    /**
+     * Pager Adapter for ViewPager2. Provides individual DayScreenslideFragments to DayFragment
+     */
+    private static class ScreenSlidePagerAdapter extends FragmentStateAdapter {
+
+        ScreenSlidePagerAdapter(Fragment fa) {
             super(fa);
         }
 
@@ -162,5 +182,4 @@ public class DayFragment extends Fragment {
             return NUM_DAYS;
         }
     }
-
 }
