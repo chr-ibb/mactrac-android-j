@@ -15,6 +15,57 @@ import chribb.mactrac.data.Macro;
 import chribb.mactrac.R;
 
 public class FoodListAdapter extends ListAdapter<Macro, FoodListAdapter.FoodViewHolder> {
+    private final LayoutInflater inflater;
+
+    public FoodListAdapter(Context context) {
+        super(DIFF_CALLBACK);
+        inflater = LayoutInflater.from(context);
+    }
+
+    public static final DiffUtil.ItemCallback<Macro> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<Macro>() {
+                @Override
+                public boolean areItemsTheSame(@NonNull Macro oldItem, @NonNull Macro newItem) {
+                    return oldItem.getId() == newItem.getId();
+                }
+
+                @Override
+                public boolean areContentsTheSame(@NonNull Macro oldItem, @NonNull Macro newItem) {
+                    return oldItem.equals(newItem);
+                }
+            };
+
+    @Override
+    public FoodViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView = inflater.inflate(R.layout.food_item, parent, false);
+        return new FoodViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(FoodViewHolder holder, int position) {
+        //TODO do I need to check if the list of macros is null?
+
+        Macro current = getItem(position);
+
+        //TODO extract strings
+//        holder.foodName.setText(current.getFood());
+        String name = current.getFood() + " Position: " + current.getPosition();
+        holder.foodName.setText(name);
+        String cal = current.getCalories() + " Calories";
+        holder.foodCalories.setText(cal);
+        String pro = current.getProtein() + "g Protein";
+        holder.foodProtein.setText(pro);
+        String fat = current.getFat() + "g Fat";
+        holder.foodFat.setText(fat);
+        String car = current.getCarbs() + "g Carbs";
+        holder.foodCarbs.setText(car);
+    }
+
+
+
+    public Macro getMacro(int position) {
+        return getItem(position);
+    }
 
     public class FoodViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final TextView foodName;
@@ -36,56 +87,8 @@ public class FoodListAdapter extends ListAdapter<Macro, FoodListAdapter.FoodView
 
         @Override
         public void onClick(View v) {
-
+            //TODO this is empty
         }
-    }
-
-    private final LayoutInflater inflater;
-
-    public FoodListAdapter(Context context) {
-        super(DIFF_CALLBACK);
-        inflater = LayoutInflater.from(context);
-    }
-
-    public static final DiffUtil.ItemCallback<Macro> DIFF_CALLBACK =
-            new DiffUtil.ItemCallback<Macro>() {
-                @Override
-                public boolean areItemsTheSame(@NonNull Macro oldItem, @NonNull Macro newItem) {
-                    return oldItem.getId() == newItem.getId();
-                }
-
-                @Override
-                public boolean areContentsTheSame(@NonNull Macro oldItem, @NonNull Macro newItem) {
-                    //TODO return oldItem.equals(newItem) // you must implement equals first.
-                    return false;
-                }
-            };
-
-    @Override
-    public FoodViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = inflater.inflate(R.layout.food_item, parent, false);
-        return new FoodViewHolder(itemView);
-    }
-
-    @Override
-    public void onBindViewHolder(FoodViewHolder holder, int position) {
-        //TODO do I need to check if the list of macros is null?
-
-        Macro current = getItem(position);
-
-        holder.foodName.setText(current.getFood());
-        String cal = current.getCalories() + " Calories";
-        holder.foodCalories.setText(cal);
-        String pro = current.getProtein() + "g Protein";
-        holder.foodProtein.setText(pro);
-        String fat = current.getFat() + "g Fat";
-        holder.foodFat.setText(fat);
-        String car = current.getCarbs() + "g Carbs";
-        holder.foodCarbs.setText(car);
-    }
-
-    public Macro getMacro(int position) {
-        return getItem(position);
     }
 
     //TODO Do I need to Override getItemCount?

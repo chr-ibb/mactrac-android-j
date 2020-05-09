@@ -30,9 +30,9 @@ public class MacroRepository {
         });
     }
 
-    public void updateOrder(MacroOrder order) {
+    public void update(List<Macro> macros) {
         MacroRoomDatabase.databaseWriteExecutor.execute(() -> {
-            macroDao.updateOrder(order);
+            macroDao.update(macros);
         });
     }
 
@@ -52,9 +52,8 @@ public class MacroRepository {
         return macroDao.loadFood(day);
     }
 
-    public LiveData<Integer> countFood(Integer day) {
-        //TODO does this need to be on another thread? why is the one above fine
-        return macroDao.countFood(day);
+    public int countFood(int day) {
+        return  macroDao.countFood(day);
     }
 
 }

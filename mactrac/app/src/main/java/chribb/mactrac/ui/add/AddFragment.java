@@ -15,7 +15,10 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
+import java.util.concurrent.Executors;
+
 import chribb.mactrac.R;
+import chribb.mactrac.data.MacroRoomDatabase;
 
 public class AddFragment extends Fragment {
     private AddViewModel addViewModel;
@@ -42,6 +45,11 @@ public class AddFragment extends Fragment {
 
         navController = Navigation.findNavController(view);
 
+        assert getArguments() != null;
+        addViewModel.setDay(AddFragmentArgs.fromBundle(getArguments()).getDay());
+        //Queries Room for number of macros on this day and sets result to COUNT in viewModel
+        addViewModel.findCount();
+
         //TODO use View Binding instead of this junk.
         editName = view.findViewById(R.id.edit_name);
         editCalories = view.findViewById(R.id.edit_calories);
@@ -62,15 +70,15 @@ public class AddFragment extends Fragment {
     }
 
     private void addMacro() {
-        Integer day = AddFragmentArgs.fromBundle(getArguments()).getDay();
+        int day = addViewModel.getDay();
         String name = editName.getText().toString();
         Integer calories = Integer.parseInt(editCalories.getText().toString());
         Integer protein = Integer.parseInt(editProtein.getText().toString());
         Integer fat = Integer.parseInt(editFat.getText().toString());
         Integer carbs = Integer.parseInt(editCarbs.getText().toString());
-        int order = AddFragmentArgs.fromBundle(getArguments()).getMacrosOnDay();
-
-        addViewModel.insert(day, name, calories, protein, fat, carbs, order);
+        int position = addViewModel.getCount();
+        
+        addViewModel.insert(day, name, calories, protein, fat, carbs, position);
     }
 
     private void pop() {

@@ -70,7 +70,7 @@ public class DayFragment extends Fragment {
         });
 
         //TODO Will only ever open to current day when view is created, could be a problem.
-        setDayOnScreen(dayViewModel.getToday(), false);
+        changeDayOnScreen(dayViewModel.getToday(), false);
 
         //FAB on click will make itself invisible, and then navigate to Add Macro fragment
         fab.setOnClickListener(new View.OnClickListener() {
@@ -82,19 +82,6 @@ public class DayFragment extends Fragment {
         });
 
         /* * * Observers * * */
-
-        //Observes the number of macros in the day on screen, for sending to AddFragment
-        //TODO would be more efficient to just set this whenever you change day on screen,
-        // and add to it / subtract from it when you add / delete a macro... this is simpler though
-        // real talk though I need to just make an Async task and get it in AddFragment...
-        dayViewModel.countFood(dayViewModel.getDayOnScreen()).observe(getViewLifecycleOwner(),
-                new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer numberOfMacros) {
-                dayViewModel.setMacrosOnDay(numberOfMacros);
-            }
-        });
-
         /* * * App Bar button Observers * * */
 
         // smoothly slides to today when the 'today' button on app bar is pressed
@@ -102,7 +89,7 @@ public class DayFragment extends Fragment {
             @Override
             public void onChanged(@NonNull final Boolean pressed) {
                 if (pressed) {
-                   setDayOnScreen(dayViewModel.getToday(), true);
+                   changeDayOnScreen(dayViewModel.getToday(), true);
                    appBarViewModel.setTodayPressed(false);
                 }
             }
@@ -149,7 +136,7 @@ public class DayFragment extends Fragment {
     private void navToAdd() {
         //TODO make a swipe up animation
         NavDirections action = DayFragmentDirections
-                .actionNavDayToNavAdd(viewPager.getCurrentItem(), dayViewModel.getMacrosOnDay());
+                .actionNavDayToNavAdd(viewPager.getCurrentItem());
         navController.navigate(action);
     }
 
@@ -158,7 +145,7 @@ public class DayFragment extends Fragment {
      * @param day Day to put on screen (counting from Unix Epoch)
      * @param isSmooth true: smoothly slide to the day. false: instant transition
      */
-    private void setDayOnScreen(int day, boolean isSmooth) {
+    private void changeDayOnScreen(int day, boolean isSmooth) {
         viewPager.setCurrentItem(day, isSmooth);
     }
 

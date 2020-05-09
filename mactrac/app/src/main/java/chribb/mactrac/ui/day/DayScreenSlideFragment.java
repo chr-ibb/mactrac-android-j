@@ -21,7 +21,6 @@ import java.util.List;
 
 import chribb.mactrac.AppBarViewModel;
 import chribb.mactrac.data.Macro;
-import chribb.mactrac.data.MacroOrder;
 import chribb.mactrac.R;
 
 public class DayScreenSlideFragment extends Fragment {
@@ -31,8 +30,6 @@ public class DayScreenSlideFragment extends Fragment {
     private int daysSinceEpoch;
     private ItemTouchHelper helper;
     private boolean isEditMode;
-    private boolean isRecycleSwipeable;
-    private boolean isRecycleDraggable;
 
     private View thisView;
 
@@ -65,6 +62,9 @@ public class DayScreenSlideFragment extends Fragment {
         //TODO can i put this somewhere else?
         helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP
                 | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+
+
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView,
                                   @NonNull RecyclerView.ViewHolder viewHolder,
@@ -74,16 +74,18 @@ public class DayScreenSlideFragment extends Fragment {
                 Macro fromMacro = adapter.getMacro(from);
                 Macro toMacro = adapter.getMacro(to);
 
-                MacroOrder newFrom = new MacroOrder(fromMacro.getId(), toMacro.getOrder());
-                MacroOrder newTo = new MacroOrder(toMacro.getId(), fromMacro.getOrder());
+                //TODO REMAKE THIS WHOLE THING BINCH. i made a new countFood that works
+                // and an update that you just give the WHOLE LIST of macros and it updates
+                // you can be changing the values of the macros, then updating the room later.
 
-                dayViewModel.updateOrder(newFrom);
-                dayViewModel.updateOrder(newTo);
-                //TODO damn this is tough. this is super buggy right now.
-                // The solution might be to not change anything here, but instead do it in the
-                // onRowMoved in RecyclerView. and you can do a for loop to shift everything over
 
                 return false;
+            }
+
+            @Override
+            public void onMoved(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, int fromPos, @NonNull RecyclerView.ViewHolder target, int toPos, int x, int y) {
+                super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y);
+                //TODO might be able to use this. this gets called when onMove returns true.
             }
 
             @Override
@@ -96,13 +98,15 @@ public class DayScreenSlideFragment extends Fragment {
 
             @Override
             public boolean isItemViewSwipeEnabled() {
-                return isRecycleSwipeable;
+                return isEditMode;
             }
 
             @Override
             public boolean isLongPressDragEnabled() {
-                return isRecycleDraggable;
+                return isEditMode;
             }
+
+
         });
 
         return inflater.inflate(
@@ -119,6 +123,9 @@ public class DayScreenSlideFragment extends Fragment {
             @Override
             public void onChanged(@NonNull final Boolean pressed) {
                 if (pressed && dayViewModel.getDayOnScreen() == daysSinceEpoch) {
+                    // TODO there is a bug when pressing edit button after adding where it doesn't
+                    // toggle edit mode for the correct day, presumably because you're observing
+                    // this on all the dayscreenslidefragments that are active instead of just one
                     toggleEditMode();
                     appBarViewModel.setEditPressed(false);
                 }
@@ -144,6 +151,11 @@ public class DayScreenSlideFragment extends Fragment {
         dayViewModel.loadFood(daysSinceEpoch).observe(getViewLifecycleOwner(), new Observer<List<Macro>>() {
             @Override
             public void onChanged(@Nullable final List<Macro> macros) {
+                // For testing
+                if(daysSinceEpoch == dayViewModel.getDayOnScreen()) {
+                    showLoadFoodSnackbar(daysSinceEpoch);
+                }
+
                 // Update the List of macros in ListAdapter
                 adapter.submitList(macros);
 
@@ -196,15 +208,11 @@ public class DayScreenSlideFragment extends Fragment {
         // maybe increase the "height" of each recycler item, like its floating higher now (shadow)
         editModeTextView.setVisibility(View.VISIBLE);
         isEditMode = true;
-        isRecycleSwipeable = true;
-        isRecycleDraggable = true;
     }
     private void disableEditMode() {
         //TODO get rid of textView, change layout back
         editModeTextView.setVisibility(View.GONE);
         isEditMode = false;
-        isRecycleSwipeable = false;
-        isRecycleDraggable = false;
     }
 
     private void showUndoSnackbar() {
@@ -215,6 +223,15 @@ public class DayScreenSlideFragment extends Fragment {
         snackbar.show();
     }
     private void undoDelete() {
+        //TODO have to account for the POSITION
         dayViewModel.insert(deleteMacro);
+    }
+
+    // For Testing
+    private void showLoadFoodSnackbar(int day) {
+        String date = dayViewModel.getDateText(day);
+        String snackString = "LoadFood: " + date;
+        Snackbar snackbar = Snackbar.make(thisView, snackString, Snackbar.LENGTH_SHORT);
+        snackbar.show();
     }
 }

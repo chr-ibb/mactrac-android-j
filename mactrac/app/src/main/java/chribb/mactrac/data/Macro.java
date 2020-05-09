@@ -1,5 +1,6 @@
 package chribb.mactrac.data;
 
+import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -14,18 +15,18 @@ public class Macro {
     private Integer protein;
     private Integer fat;
     private Integer carbs;
-    private int order;
+    private Integer position;
     private String note;
 
     public Macro(int day, String food, Integer calories,
-                 Integer protein, Integer fat, Integer carbs, int order) {
+                 Integer protein, Integer fat, Integer carbs, int position) {
         this.day = day;
         this.food = food;
         this.calories = calories;
         this.protein = protein;
         this.fat = fat;
         this.carbs = carbs;
-        this.order = order;
+        this.position = position;
     }
 
     public void setId(long id) {
@@ -58,9 +59,9 @@ public class Macro {
         return carbs;
     }
 
-    public int getOrder() { return order; }
-    public void setOrder(int order) {
-        this.order = order;
+    public Integer getPosition() { return position; }
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     public String getNote() {
@@ -68,5 +69,19 @@ public class Macro {
     }
     public void setNote(String note) {
         this.note = note;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+        Macro o = (Macro) obj;
+
+        return  o.getFood().equals(this.food) &&
+                o.getCalories().equals(this.calories) &&
+                o.getProtein().equals(this.protein) &&
+                o.getFat().equals(this.fat) &&
+                o.getCarbs().equals(this.carbs);
     }
 }

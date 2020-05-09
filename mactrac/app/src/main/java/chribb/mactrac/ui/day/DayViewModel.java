@@ -10,13 +10,11 @@ import java.util.List;
 import java.util.Random;
 
 import chribb.mactrac.data.Macro;
-import chribb.mactrac.data.MacroOrder;
 import chribb.mactrac.data.MacroRepository;
 
 public class DayViewModel extends AndroidViewModel {
     private MacroRepository repo;
     private Integer dayOnScreen; //TODO not sure if necessary
-    private int macrosOnDay;
 
     public DayViewModel(Application application) {
         super(application);
@@ -25,8 +23,8 @@ public class DayViewModel extends AndroidViewModel {
 
         /* Repo Methods */
     void insert(Integer day, String food, Integer calories,
-                       Integer protein, Integer fat, Integer carbs, int order) {
-        repo.insert(new Macro(day, food, calories, protein, fat, carbs, order));
+                       Integer protein, Integer fat, Integer carbs, int position) {
+        repo.insert(new Macro(day, food, calories, protein, fat, carbs, position));
     }
     void insert(Macro macro) {
         repo.insert(macro);
@@ -42,13 +40,10 @@ public class DayViewModel extends AndroidViewModel {
         return repo.loadFood(day);
     }
 
-    LiveData<Integer> countFood(Integer day) {
+    int countFood(Integer day) {
         return repo.countFood(day);
     }
 
-    void updateOrder(MacroOrder order) {
-        repo.updateOrder(order);
-    }
 
 
         /* public methods */
@@ -109,14 +104,6 @@ public class DayViewModel extends AndroidViewModel {
 
     void setDayOnScreen(Integer dayOnScreen) {
         this.dayOnScreen = dayOnScreen;
-    }
-
-    int getMacrosOnDay() {
-        return macrosOnDay;
-    }
-
-    void setMacrosOnDay(int macrosOnDay) {
-        this.macrosOnDay = macrosOnDay;
     }
 
     void test10000() {
