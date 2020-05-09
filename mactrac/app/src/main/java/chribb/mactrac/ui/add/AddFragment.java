@@ -77,7 +77,7 @@ public class AddFragment extends Fragment {
         Integer fat = Integer.parseInt(editFat.getText().toString());
         Integer carbs = Integer.parseInt(editCarbs.getText().toString());
         int position = addViewModel.getCount();
-        
+
         addViewModel.insert(day, name, calories, protein, fat, carbs, position);
     }
 

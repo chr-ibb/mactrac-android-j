@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import chribb.mactrac.AppBarViewModel;
@@ -59,6 +61,7 @@ public class DayScreenSlideFragment extends Fragment {
         assert getArguments() != null;
         daysSinceEpoch = getArguments().getInt("daysSinceEpoch", 0);
 
+
         //TODO can i put this somewhere else?
         helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP
                 | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -69,30 +72,56 @@ public class DayScreenSlideFragment extends Fragment {
             public boolean onMove(@NonNull RecyclerView recyclerView,
                                   @NonNull RecyclerView.ViewHolder viewHolder,
                                   @NonNull RecyclerView.ViewHolder target) {
-                int from = viewHolder.getAdapterPosition();
-                int to = target.getAdapterPosition();
-                Macro fromMacro = adapter.getMacro(from);
-                Macro toMacro = adapter.getMacro(to);
+                List<Macro> macrosCopy = new ArrayList<>(adapter.getCurrentList());
+                int fromPosition = viewHolder.getAdapterPosition();
+                int toPosition = target.getAdapterPosition();
 
-                //TODO REMAKE THIS WHOLE THING BINCH. i made a new countFood that works
-                // and an update that you just give the WHOLE LIST of macros and it updates
-                // you can be changing the values of the macros, then updating the room later.
-
-
-                return false;
+                if (fromPosition < toPosition) {
+                    for (int i = fromPosition; i < toPosition; i ++) {
+                        // TODO consider making  a method swapMacroPositions(list, int, int)
+                        Collections.swap(macrosCopy, i, i + 1);
+                        Macro macro1 = macrosCopy.get(i);
+                        Macro macro2 = macrosCopy.get(i + 1);
+                        int position1 = macro1.getPosition();
+                        int position2 = macro2.getPosition();
+                        macro1.setPosition(position2);
+                        macro2.setPosition(position1);
+                    }
+                } else {
+                    for (int i = fromPosition; i > toPosition; i --) {
+                        Collections.swap(macrosCopy, i, i - 1);
+                        Macro macro1 = macrosCopy.get(i);
+                        Macro macro2 = macrosCopy.get(i - 1);
+                        int position1 = macro1.getPosition();
+                        int position2 = macro2.getPosition();
+                        macro1.setPosition(position2);
+                        macro2.setPosition(position1);
+                    }
+                }
+                adapter.submitList(macrosCopy);
+//                adapter.notifyItemMoved(fromPosition, toPosition);
+                return true;
             }
 
             @Override
-            public void onMoved(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, int fromPos, @NonNull RecyclerView.ViewHolder target, int toPos, int x, int y) {
-                super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y);
-                //TODO might be able to use this. this gets called when onMove returns true.
+            public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+                super.clearView(recyclerView, viewHolder);
+                dayViewModel.update(adapter.getCurrentList());
             }
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                List<Macro> macrosCopy = new ArrayList<>(adapter.getCurrentList());
                 deletePosition = viewHolder.getAdapterPosition();
                 deleteMacro = adapter.getMacro(deletePosition);
                 dayViewModel.deleteFood(deleteMacro.getId());
+                macrosCopy.remove(deletePosition);
+
+                for (int i = deletePosition; i < macrosCopy.size(); i++) {
+                    macrosCopy.get(i).setPosition(i);
+                }
+
+                dayViewModel.update(macrosCopy);
                 showUndoSnackbar();
             }
 
@@ -151,10 +180,6 @@ public class DayScreenSlideFragment extends Fragment {
         dayViewModel.loadFood(daysSinceEpoch).observe(getViewLifecycleOwner(), new Observer<List<Macro>>() {
             @Override
             public void onChanged(@Nullable final List<Macro> macros) {
-                // For testing
-                if(daysSinceEpoch == dayViewModel.getDayOnScreen()) {
-                    showLoadFoodSnackbar(daysSinceEpoch);
-                }
 
                 // Update the List of macros in ListAdapter
                 adapter.submitList(macros);
@@ -223,15 +248,11 @@ public class DayScreenSlideFragment extends Fragment {
         snackbar.show();
     }
     private void undoDelete() {
-        //TODO have to account for the POSITION
+        List<Macro> macrosCopy = new ArrayList<>(adapter.getCurrentList());
+        for (int i = deletePosition; i < macrosCopy.size(); i++) {
+            macrosCopy.get(i).setPosition(i + 1);
+        }
+        dayViewModel.update(macrosCopy);
         dayViewModel.insert(deleteMacro);
-    }
-
-    // For Testing
-    private void showLoadFoodSnackbar(int day) {
-        String date = dayViewModel.getDateText(day);
-        String snackString = "LoadFood: " + date;
-        Snackbar snackbar = Snackbar.make(thisView, snackString, Snackbar.LENGTH_SHORT);
-        snackbar.show();
     }
 }

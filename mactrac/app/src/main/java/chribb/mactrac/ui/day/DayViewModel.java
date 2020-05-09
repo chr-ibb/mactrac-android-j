@@ -22,27 +22,32 @@ public class DayViewModel extends AndroidViewModel {
     }
 
         /* Repo Methods */
+    LiveData<List<Macro>> loadFood(Integer day) {
+        return repo.loadFood(day);
+    }
+
     void insert(Integer day, String food, Integer calories,
                        Integer protein, Integer fat, Integer carbs, int position) {
         repo.insert(new Macro(day, food, calories, protein, fat, carbs, position));
     }
+
     void insert(Macro macro) {
         repo.insert(macro);
     }
 
-    void deleteAll() { repo.deleteAll(); }
-
-    void deleteFood(long id) {
-        repo.deleteFood(id);
-    }
-
-    LiveData<List<Macro>> loadFood(Integer day) {
-        return repo.loadFood(day);
+    void update(List<Macro> macros) {
+        repo.update(macros);
     }
 
     int countFood(Integer day) {
         return repo.countFood(day);
     }
+
+    void deleteFood(long id) {
+        repo.deleteFood(id);
+    }
+
+    void deleteAll() { repo.deleteAll(); }
 
 
 
