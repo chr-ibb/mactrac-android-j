@@ -65,15 +65,6 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/edit_mode_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Edit Mode Enabled"
-        android:textAlignment="center"
-        android:background="@color/EditMode"
-        android:visibility="gone"/>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"

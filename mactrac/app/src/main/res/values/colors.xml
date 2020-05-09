@@ -4,7 +4,5 @@
     <color name="colorPrimaryDark">#1E1E1E</color>
     <color name="colorAccent">#3DE8FF</color>
 
-    <color name="colorTest">#FF7802</color>
-
-    <color name="EditMode">#FFFF7802</color>
+    <color name="EditMode">#FDD835</color>
 </resources>

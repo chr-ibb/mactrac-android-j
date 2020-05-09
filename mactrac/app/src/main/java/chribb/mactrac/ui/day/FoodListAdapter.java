@@ -17,12 +17,12 @@ import chribb.mactrac.R;
 public class FoodListAdapter extends ListAdapter<Macro, FoodListAdapter.FoodViewHolder> {
     private final LayoutInflater inflater;
 
-    public FoodListAdapter(Context context) {
+    FoodListAdapter(Context context) {
         super(DIFF_CALLBACK);
         inflater = LayoutInflater.from(context);
     }
 
-    public static final DiffUtil.ItemCallback<Macro> DIFF_CALLBACK =
+    private static final DiffUtil.ItemCallback<Macro> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<Macro>() {
                 @Override
                 public boolean areItemsTheSame(@NonNull Macro oldItem, @NonNull Macro newItem) {
@@ -35,6 +35,7 @@ public class FoodListAdapter extends ListAdapter<Macro, FoodListAdapter.FoodView
                 }
             };
 
+    @NonNull
     @Override
     public FoodViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = inflater.inflate(R.layout.food_item, parent, false);
@@ -48,8 +49,7 @@ public class FoodListAdapter extends ListAdapter<Macro, FoodListAdapter.FoodView
         Macro current = getItem(position);
 
         //TODO extract strings
-//        holder.foodName.setText(current.getFood());
-        String name = current.getFood() + " Position: " + current.getPosition();
+        String name = current.getFood(); // + " Position: " + current.getPosition();
         holder.foodName.setText(name);
         String cal = current.getCalories() + " Calories";
         holder.foodCalories.setText(cal);
@@ -63,11 +63,11 @@ public class FoodListAdapter extends ListAdapter<Macro, FoodListAdapter.FoodView
 
 
 
-    public Macro getMacro(int position) {
+    Macro getMacro(int position) {
         return getItem(position);
     }
 
-    public class FoodViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class FoodViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final TextView foodName;
         private final TextView foodCalories; //TODO Viewbinding
         private final TextView foodProtein;

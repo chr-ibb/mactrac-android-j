@@ -1,5 +1,7 @@
 package chribb.mactrac.ui.day;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -24,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import chribb.mactrac.Utils;
 import chribb.mactrac.data.Macro;
 import chribb.mactrac.R;
 
@@ -38,7 +42,8 @@ public class DayScreenSlideFragment extends Fragment {
 
     private Macro deleteMacro;
     private int deletePosition;
-    private TextView editModeTextView;
+    private MenuItem editMenuItem;
+
 
     /* This is the standard way of "instantiating" a new fragment with data to pass in,
      * since you cannot make a custom constructor for a fragment. */
@@ -84,7 +89,6 @@ public class DayScreenSlideFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
-        editModeTextView = view.findViewById(R.id.edit_mode_text);
         //TODO consider view binding or data binding
         TextView dateText = view.findViewById(R.id.date_text);
         TextView relativeDayText = view.findViewById(R.id.relative_day_text);
@@ -135,6 +139,18 @@ public class DayScreenSlideFragment extends Fragment {
                 totalCarbsText.setText(totalCarbs);
             }
         });
+    }
+
+    /**
+     * Finds the edit macros item on AppBar and saves it as a member variable. Will use to toggle
+     * the color of the icon.
+     * @param menu menu
+     * @param inflater inflater
+     */
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        editMenuItem = menu.findItem(R.id.action_edit_macros);
     }
 
     /**
@@ -305,11 +321,11 @@ public class DayScreenSlideFragment extends Fragment {
      * Enables edit mode.
      */
     private void enableEditMode() {
-        //TODO  Make a textview visable that says "swipe to delete, click to edit"
-        // change layout to like highlight the section to be edited. Make it noticeably different.
-        // Maybe increase the "height" of each recycler item, like its floating higher now (shadow)
-        editModeTextView.setVisibility(View.VISIBLE);
+        enableEditAnimation();
 
+        if (editMenuItem != null) {
+            editMenuItem.setIcon(R.drawable.ic_edit_yellow);
+        }
         isEditMode = true;
     }
 
@@ -317,9 +333,68 @@ public class DayScreenSlideFragment extends Fragment {
      * Disables edit mode
      */
     private void disableEditMode() {
-        //TODO get rid of textView, change layout back
-        editModeTextView.setVisibility(View.GONE);
+        disableEditAnimation();
+
+        if (editMenuItem != null) {
+            editMenuItem.setIcon(R.drawable.ic_edit);
+        }
         isEditMode = false;
+    }
+
+    /**
+     * Animates the enabling of edit mode by increasing the margin and elevation of cards.
+     */
+    private void enableEditAnimation() {
+        final float scale = requireContext().getResources().getDisplayMetrics().density;
+
+        int startElevation = Utils.convertDPtoPixels(scale, 6);
+        int endElevation = Utils.convertDPtoPixels(scale, 18);
+        int startMargin = Utils.convertDPtoPixels(scale, 4);
+        int endMargin = Utils.convertDPtoPixels(scale, 6);
+
+        int count = recyclerView.getChildCount();
+        for (int i = 0; i < count; i++) {
+            CardView card = (CardView) recyclerView.getChildAt(i);
+
+            ObjectAnimator animator1 = ObjectAnimator.ofFloat(card, "cardElevation",
+                    startElevation, endElevation);
+
+            ObjectAnimator animator2 = ObjectAnimator.ofFloat(card, "maxCardElevation",
+                    startMargin, endMargin);
+
+            AnimatorSet animatorSet = new AnimatorSet();
+            animatorSet.playTogether(animator1, animator2);
+            animatorSet.start();
+        }
+    }
+
+    /**
+     * Animates the disabling of edit mode by decreasing the margin and elevation of cards.
+     */
+    private void disableEditAnimation() {
+        //TODO there is a bug where the 8th item doesnt revert it's elevation??? weird bug.
+        // or if you are scrolled down, the top items wont revert. Only Happens when things are
+        // not on screen.
+        final float scale = requireContext().getResources().getDisplayMetrics().density;
+
+        int startElevation = Utils.convertDPtoPixels(scale, 18);
+        int endElevation = Utils.convertDPtoPixels(scale, 6);
+        int startMargin = Utils.convertDPtoPixels(scale, 6);
+        int endMargin = Utils.convertDPtoPixels(scale, 4);
+
+        int count = recyclerView.getChildCount();
+        for (int i = 0; i < count; i++) {
+            CardView card = (CardView) recyclerView.getChildAt(i);
+
+            ObjectAnimator animator1 = ObjectAnimator.ofFloat(card, "cardElevation",
+                    startElevation, endElevation);
+            ObjectAnimator animator2 = ObjectAnimator.ofFloat(card, "maxCardElevation",
+                    startMargin, endMargin);
+
+            AnimatorSet animatorSet = new AnimatorSet();
+            animatorSet.playTogether(animator1, animator2);
+            animatorSet.start();
+        }
     }
 
     /**
