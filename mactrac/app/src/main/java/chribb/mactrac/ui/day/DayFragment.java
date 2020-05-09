@@ -2,13 +2,15 @@ package chribb.mactrac.ui.day;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
@@ -18,12 +20,10 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import chribb.mactrac.AppBarViewModel;
 import chribb.mactrac.R;
 
 public class DayFragment extends Fragment {
     private DayViewModel dayViewModel;
-    private AppBarViewModel appBarViewModel;
 
     private NavController navController;
 
@@ -35,17 +35,21 @@ public class DayFragment extends Fragment {
     private static final int NUM_DAYS =  36525;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         dayViewModel = new ViewModelProvider(this).get(DayViewModel.class);
-        appBarViewModel = new ViewModelProvider(requireActivity()).get(AppBarViewModel.class);
 
         fab = requireActivity().findViewById(R.id.fab);
         fab.setVisibility(View.VISIBLE);
 
-        View view = inflater.inflate(R.layout.fragment_day, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_day, container, false);
     }
 
     @Override
@@ -80,54 +84,48 @@ public class DayFragment extends Fragment {
                 navToAdd();
             }
         });
-
-        /* * * Observers * * */
-        /* * * App Bar button Observers * * */
-
-        // smoothly slides to today when the 'today' button on app bar is pressed
-        appBarViewModel.getTodayPressed().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
-            @Override
-            public void onChanged(@NonNull final Boolean pressed) {
-                if (pressed) {
-                   changeDayOnScreen(dayViewModel.getToday(), true);
-                   appBarViewModel.setTodayPressed(false);
-                }
-            }
-        });
-
-        //Deletes all Macros when Delete All is pressed in overflow
-        appBarViewModel.getDeleteAllPressed().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
-            @Override
-            public void onChanged(@NonNull final Boolean pressed) {
-                if (pressed) {
-                    dayViewModel.deleteAll();
-                    appBarViewModel.setDeleteAllPressed(false);
-                }
-            }
-        });
-
-        //Adds 10000 random Macros to random days when button is pressed in overflow, for testing.
-        appBarViewModel.getTest10000Pressed().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
-            @Override
-            public void onChanged(@NonNull final Boolean pressed) {
-                if (pressed) {
-                    dayViewModel.test10000();
-                    appBarViewModel.setTest10000Pressed(false);
-                }
-            }
-        });
-
-        // Adds 10 Macros to the day on screen, for testing.
-        appBarViewModel.getTestTodayPressed().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
-            @Override
-            public void onChanged(@NonNull final Boolean pressed) {
-                if (pressed) {
-                    dayViewModel.testToday();
-                    appBarViewModel.setTestTodayPressed(false);
-                }
-            }
-        });
     }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.main, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    /**
+     * Handles an item being selected from the AppBar. 'Edit macro' button is handled in
+     * DayScreenSlideFragment, the others are handled here.
+     * @param item MenuItem that was selected.
+     * @return Whether selection was handled, I believe.
+     */
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_select_today:
+                changeDayOnScreen(dayViewModel.getToday(), true);
+                return true;
+            case R.id.action_search_day:
+                //TODO
+                return true;
+            case R.id.action_edit_macros:
+                return false;
+            case R.id.action_delete_all:
+                dayViewModel.deleteAll();
+                return true;
+            case R.id.action_test_10000:
+                dayViewModel.test10000();
+                return true;
+            case R.id.action_test_today:
+                dayViewModel.testToday();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+    /* Private Methods */
+
 
     /**
      * Navigates from DayFragment to AddFragment, for adding macros.

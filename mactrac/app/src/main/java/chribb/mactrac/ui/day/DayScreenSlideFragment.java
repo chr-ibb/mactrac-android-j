@@ -2,6 +2,9 @@ package chribb.mactrac.ui.day;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -21,13 +24,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import chribb.mactrac.AppBarViewModel;
 import chribb.mactrac.data.Macro;
 import chribb.mactrac.R;
 
 public class DayScreenSlideFragment extends Fragment {
     private DayViewModel dayViewModel;
-    private AppBarViewModel appBarViewModel;
     private RecyclerView recyclerView;
     private FoodListAdapter adapter;
     private int daysSinceEpoch;
@@ -52,11 +53,16 @@ public class DayScreenSlideFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         dayViewModel = new ViewModelProvider(requireParentFragment()).get(DayViewModel.class);
-        appBarViewModel = new ViewModelProvider(requireActivity()).get(AppBarViewModel.class);
 
         assert getArguments() != null;
         daysSinceEpoch = getArguments().getInt("daysSinceEpoch", 0);
@@ -91,20 +97,6 @@ public class DayScreenSlideFragment extends Fragment {
         relativeDayText.setText(dayViewModel.getRelativeDayText(daysSinceEpoch));
 
         disableEditMode();
-
-        /* AppBar button observer for toggling edit mode */
-        appBarViewModel.getEditPressed().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
-            @Override
-            public void onChanged(@NonNull final Boolean pressed) {
-                if (pressed && dayViewModel.getDayOnScreen() == daysSinceEpoch) {
-                    // TODO there is a bug when pressing edit button after adding where it doesn't
-                    // toggle edit mode for the correct day, presumably because you're observing
-                    // this on all the DayScreenSlideFragments that are active instead of just one
-                    toggleEditMode();
-                    appBarViewModel.setEditPressed(false);
-                }
-            }
-        });
 
         /* Observer for the list of Macros that belong to this day */
         dayViewModel.loadFood(daysSinceEpoch).observe(getViewLifecycleOwner(), new Observer<List<Macro>>() {
@@ -143,6 +135,22 @@ public class DayScreenSlideFragment extends Fragment {
                 totalCarbsText.setText(totalCarbs);
             }
         });
+    }
+
+    /**
+     * Handles an item being selected from the AppBar. Only handles the 'edit macro' button,
+     * the rest of the buttons are handled in DayFragment.
+     * @param item MenuItem that was selected.
+     * @return Whether selection was handled, I believe.
+     */
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_edit_macros) {
+            toggleEditMode();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
     }
 
     /**

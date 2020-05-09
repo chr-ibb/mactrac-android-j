@@ -18,7 +18,6 @@ import androidx.appcompat.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
-    private AppBarViewModel appBarViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,42 +39,34 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
-        appBarViewModel = new ViewModelProvider(this).get(AppBarViewModel.class);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_select_today:
-                appBarViewModel.setTodayPressed(true);
-                return true;
-            case R.id.action_search_day:
-                appBarViewModel.setSearchPressed(true);
-                return true;
-            case R.id.action_edit_macros:
-                appBarViewModel.setEditPressed(true);
-                return true;
-            case R.id.action_delete_all:
-                appBarViewModel.setDeleteAllPressed(true);
-                return true;
-            case R.id.action_test_10000:
-                appBarViewModel.setTest10000Pressed(true);
-                return true;
-            case R.id.action_test_today:
-                appBarViewModel.setTestTodayPressed(true);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.main, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.action_select_today:
+//                return false;
+//            case R.id.action_search_day:
+//                return false;
+//            case R.id.action_edit_macros:
+//                return false;
+//            case R.id.action_delete_all:
+//                return false;
+//            case R.id.action_test_10000:
+//                return false;
+//            case R.id.action_test_today:
+//                return false;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
 
 
     @Override
