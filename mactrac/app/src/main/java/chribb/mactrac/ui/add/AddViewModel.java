@@ -16,12 +16,13 @@ public class AddViewModel extends AndroidViewModel {
     private int day;
     private int count;
 
-    /* * * Repo Methods * * */
+
     public AddViewModel(Application application) {
         super(application);
         repo = new MacroRepository(application);
     }
 
+    /* * * Repo Methods * * */
     void insert(Integer day, String food, Integer calories,
                 Integer protein, Integer fat, Integer carbs, int position) {
         repo.insert(new Macro(day, food, calories, protein, fat, carbs, position));
