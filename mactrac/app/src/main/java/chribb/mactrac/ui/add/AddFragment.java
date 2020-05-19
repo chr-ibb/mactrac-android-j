@@ -46,11 +46,11 @@ public class AddFragment extends Fragment {
         navController = Navigation.findNavController(view);
 
         assert getArguments() != null;
-        addViewModel.setDay(AddFragmentArgs.fromBundle(getArguments()).getDay());
+        addViewModel.setDay(AddNameFragmentArgs.fromBundle(getArguments()).getDay());
         //Queries Room for number of macros on this day and sets result to COUNT in viewModel
         addViewModel.findCount();
 
-        //TODO use View Binding instead of this junk.
+        //TODO use View Binding instead of this.
         editName = view.findViewById(R.id.edit_name);
         editCalories = view.findViewById(R.id.edit_calories);
         editProtein = view.findViewById(R.id.edit_protein);

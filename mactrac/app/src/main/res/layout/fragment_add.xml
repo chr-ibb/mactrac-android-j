@@ -6,15 +6,12 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/textView_add_numbers_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Name" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/edit_name"
-        android:hint="enter name" />
+        android:text="@string/name_placeholder"
+        android:textAlignment="center"
+        android:textSize="30sp" />
 
     <TextView
         android:layout_width="match_parent"

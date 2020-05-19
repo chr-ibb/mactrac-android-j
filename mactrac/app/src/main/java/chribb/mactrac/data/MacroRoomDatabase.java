@@ -44,6 +44,11 @@ public abstract class MacroRoomDatabase extends RoomDatabase {
 
             //TODO get rid of this whole thing below... do i get rid of the whole callback or not?
 
+            //TODO is this where I would create my own data on loading the app?
+            // for example if I was going to make a Trie for the autofill suggestions when adding,
+            // should i make it here? Where would i store it and how would i access it? It would
+            // be nice to access it from the DB just like all the other calls to Room.
+
             // If you want to keep data through app restarts,
             // comment out the following block
 //            databaseWriteExecutor.execute(() -> {

@@ -11,24 +11,46 @@
         android:label="@string/menu_day"
         tools:layout="@layout/fragment_day">
         <action
-            android:id="@+id/action_nav_day_to_nav_add"
-            app:destination="@id/nav_add"
+            android:id="@+id/action_nav_day_to_nav_add_name"
+            app:destination="@id/nav_add_name"
             app:launchSingleTop="false" />
     </fragment>
 
     <fragment
-        android:id="@+id/nav_add"
-        android:name="chribb.mactrac.ui.add.AddFragment"
-        android:label="Add"
-        tools:layout="@layout/fragment_add" >
+        android:id="@+id/nav_add_name"
+        android:name="chribb.mactrac.ui.add.AddNameFragment"
+        android:label="Add Name"
+        tools:layout="@layout/fragment_add_name" >
         <argument
             android:name="day"
             app:argType="integer" />
         <action
-            android:id="@+id/action_nav_add_to_nav_day"
-            app:destination="@id/nav_day"
-            app:popUpTo="@+id/nav_day"
-            app:popUpToInclusive="false"/>
+            android:id="@+id/action_nav_add_name_to_nav_add_numbers"
+            app:destination="@id/nav_add_numbers"
+            app:launchSingleTop="false"/>
+    </fragment>
+
+<!--    pop up to-->
+
+    <fragment
+        android:id="@+id/nav_add_numbers"
+        android:name="chribb.mactrac.ui.add.AddNumbersFragment"
+        android:label="Add Numbers"
+        tools:layout="@layout/fragment_add_numbers">
+        <action
+            android:id="@+id/action_nav_add_numbers_to_nav_add_details"
+            app:destination="@+id/nav_add_details"
+            app:launchSingleTop="false" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_add_details"
+        android:name="chribb.mactrac.ui.add.AddDetailsFragment"
+        android:label="Add Details"
+        tools:layout="@layout/fragment_add_details" >
+        <action
+            android:id="@+id/action_nav_add_details_to_nav_day"
+            app:popUpTo="@id/nav_day"/>
     </fragment>
 
     <fragment

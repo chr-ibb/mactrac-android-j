@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/text_add_numbers_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/name_placeholder"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_add_numbers_calories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calories"
+        android:labelFor="@+id/edit_calories"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_calories"
+        app:layout_constraintEnd_toStartOf="@+id/edit_calories"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/edit_calories" />
+
+    <EditText
+        android:id="@+id/edit_calories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:ems="4"
+        android:inputType="number"
+        android:importantForAutofill="no"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_add_numbers_name" />
+
+    <TextView
+        android:id="@+id/text_add_numbers_protein"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Protein"
+        android:labelFor="@+id/edit_protein"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_protein"
+        app:layout_constraintEnd_toStartOf="@+id/edit_protein"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/edit_protein" />
+
+    <EditText
+        android:id="@+id/edit_protein"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:ems="4"
+        android:inputType="number"
+        android:importantForAutofill="no"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_calories" />
+
+    <TextView
+        android:id="@+id/text_add_numbers_fat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fat"
+        android:labelFor="@+id/edit_fat"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_fat"
+        app:layout_constraintEnd_toStartOf="@+id/edit_fat"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/edit_fat" />
+
+    <EditText
+        android:id="@+id/edit_fat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:ems="4"
+        android:inputType="number"
+        android:importantForAutofill="no"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_protein" />
+
+
+    <TextView
+        android:id="@+id/text_add_numbers_carbs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Carbs"
+        android:labelFor="@+id/edit_carbs"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_carbs"
+        app:layout_constraintEnd_toStartOf="@+id/edit_carbs"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/edit_carbs" />
+
+    <EditText
+        android:id="@+id/edit_carbs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:ems="4"
+        android:inputType="number"
+        android:importantForAutofill="no"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_fat"
+        android:imeOptions="actionDone"/>
+
+
+    <Button
+        android:id="@+id/button_add_numbers_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Details"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/edit_carbs"
+        app:layout_constraintTop_toBottomOf="@id/edit_carbs" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

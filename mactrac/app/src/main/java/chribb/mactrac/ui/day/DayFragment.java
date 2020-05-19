@@ -21,6 +21,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import chribb.mactrac.R;
+import chribb.mactrac.Utils;
 
 public class DayFragment extends Fragment {
     private DayViewModel dayViewModel;
@@ -54,8 +55,9 @@ public class DayFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
         super.onViewCreated(view, savedInstanceState);
+
+        Utils.hideKeyboardFrom(getContext(), view);
 
         navController = Navigation.findNavController(view);
 
@@ -81,7 +83,7 @@ public class DayFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 fab.setVisibility(View.INVISIBLE);
-                navToAdd();
+                navToAddName();
             }
         });
     }
@@ -131,10 +133,10 @@ public class DayFragment extends Fragment {
      * Navigates from DayFragment to AddFragment, for adding macros.
      * Passes current day on screen and number of macros on the day
      */
-    private void navToAdd() {
+    private void navToAddName() {
         //TODO make a swipe up animation
         NavDirections action = DayFragmentDirections
-                .actionNavDayToNavAdd(viewPager.getCurrentItem());
+                .actionNavDayToNavAddName(viewPager.getCurrentItem());
         navController.navigate(action);
     }
 
