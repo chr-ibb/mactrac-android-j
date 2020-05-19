@@ -13,7 +13,11 @@
         <action
             android:id="@+id/action_nav_day_to_nav_add_name"
             app:destination="@id/nav_add_name"
-            app:launchSingleTop="false" />
+            app:enterAnim="@anim/push_up_in"
+            app:exitAnim="@anim/push_up_out"
+            app:launchSingleTop="false"
+            app:popEnterAnim="@anim/push_down_in"
+            app:popExitAnim="@anim/push_down_out" />
     </fragment>
 
     <fragment
@@ -27,7 +31,11 @@
         <action
             android:id="@+id/action_nav_add_name_to_nav_add_numbers"
             app:destination="@id/nav_add_numbers"
-            app:launchSingleTop="false"/>
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="false"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
 
 <!--    pop up to-->
@@ -40,7 +48,11 @@
         <action
             android:id="@+id/action_nav_add_numbers_to_nav_add_details"
             app:destination="@+id/nav_add_details"
-            app:launchSingleTop="false" />
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="false"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
 
     <fragment
