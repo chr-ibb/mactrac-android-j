@@ -1,12 +1,14 @@
 package chribb.mactrac.data;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "favorite_table")
 public class Favorite {
 
-    @PrimaryKey
+    @PrimaryKey @NonNull
     private String name;
 
     private Integer calories;
@@ -71,5 +73,15 @@ public class Favorite {
 
     public void setCount(Integer count) {
         this.count = count;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+        Favorite o = (Favorite) obj;
+
+        return  o.getName().equals(this.name);
     }
 }
