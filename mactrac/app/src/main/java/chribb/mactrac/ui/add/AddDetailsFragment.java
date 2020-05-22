@@ -49,6 +49,9 @@ public class AddDetailsFragment extends Fragment {
                 //TODO animate the card swiping up, basically moving to the Day Fragment which is
                 // above. The whole screen will move up to match when returning to Day, so you may
                 // need a delay, maybe just wait for animation to finish
+                // even better would be to have the card slide up from below on the next screen,
+                // but that would also be much harder to do. With my current implementation
+                // the new food is already there when you get there.
 
                 addViewModel.addFood();
 

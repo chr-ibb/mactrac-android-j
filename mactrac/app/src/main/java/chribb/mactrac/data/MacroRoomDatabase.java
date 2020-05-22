@@ -13,10 +13,11 @@ import java.util.concurrent.Executors;
 
 
 ///TODO expertSchema = true, figure out what that does/means
-@Database(entities = {Macro.class}, version = 1, exportSchema = false)
+@Database(entities = {Macro.class, Favorite.class}, version = 1, exportSchema = false)
 public abstract class MacroRoomDatabase extends RoomDatabase {
 
     public abstract MacroDao macroDao();
+    public abstract FavoriteDao favoriteDao();
 
     private static volatile MacroRoomDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;

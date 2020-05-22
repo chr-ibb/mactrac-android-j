@@ -29,6 +29,13 @@ public class Macro {
         this.position = position;
     }
 
+    //TODO I might be able to have an arbitrary number of custom macronutrients tracked if I switch
+    // over to an array. calories, protein, fat, carbs will be the first 4 values by default,
+    // but the user can edit that, and add to it. There will be maybe something in settings or idk
+    // where it saves which nutrients belong to which position in the array.
+    // and then all of the UI would have to be built programmatically. It seems doable though,
+    // despite Room limitations. who knows maybe you cannot save an array of Integers to Room.
+
     public void setId(long id) {
         this.id = id;
     }
