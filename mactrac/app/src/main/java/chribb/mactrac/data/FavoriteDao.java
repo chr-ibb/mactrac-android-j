@@ -23,4 +23,7 @@ public interface FavoriteDao {
     @Query("SELECT * FROM favorite_table")
     List<Favorite> loadFavorites();
 
+    @Query("SELECT * From favorite_table Where name = :name")
+    Favorite getFavorite(String name);
+
 }

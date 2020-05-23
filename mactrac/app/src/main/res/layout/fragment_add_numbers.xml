@@ -115,11 +115,11 @@
         android:id="@+id/button_add_numbers_next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Details"
+        android:text="->"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_carbs"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/edit_carbs"
-        app:layout_constraintTop_toBottomOf="@id/edit_carbs" />
+        app:layout_constraintTop_toTopOf="@+id/edit_carbs" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

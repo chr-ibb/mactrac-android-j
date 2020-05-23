@@ -4,14 +4,21 @@ import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 
+import java.util.List;
 import java.util.concurrent.Executors;
 
+import chribb.mactrac.data.Favorite;
+import chribb.mactrac.data.FavoriteDao;
+import chribb.mactrac.data.FavoriteTrie;
 import chribb.mactrac.data.Macro;
 import chribb.mactrac.data.MacroRepository;
 
 
 public class AddViewModel extends AndroidViewModel {
     private MacroRepository repo;
+
+    private FavoriteTrie fTrie;
+    private Favorite favorite;
 
     private int day;
     private int count;
@@ -43,11 +50,48 @@ public class AddViewModel extends AndroidViewModel {
         Executors.newSingleThreadExecutor().execute(() -> count = countFood(day));
     }
 
+    void getFavorite() {
+        assert(name != null);
+        if (fTrie.contains(name)) {
+            Executors.newSingleThreadExecutor().execute(() -> favorite = repo.getFavorite(name));
+        } else {
+            favorite = null;
+        }
+    }
+
+    boolean alreadyFavorite() {
+        return favorite != null;
+    }
+
     public void addFood() {
         insert(day, name, calories, protein, fat, carbs, count);
     }
 
+    public void addFavorite(boolean checked) {
+        //TODO reconsider whether it increments if you dont overwrite... or what it does
+        // maybe only increment when you clicked on the suggestion before? not sure
+        if (alreadyFavorite()) {
+            if (checked) {
+                Favorite toAdd = new Favorite(name, calories, protein, fat, carbs,
+                        favorite.getCount() + 1);
+                addToTrie(toAdd);
+                repo.insertFavorite(toAdd);
+            } else {
+                Favorite toAdd = new Favorite(favorite.getName(), favorite.getCalories(),
+                        favorite.getProtein(), favorite.getFat(), favorite.getCarbs(),
+                        favorite.getCount() + 1);
+                addToTrie(toAdd);
+                repo.insertFavorite(toAdd);
+            }
+        } else if (checked) {
+            Favorite toAdd = new Favorite(name, calories, protein, fat, carbs,1);
+            addToTrie(toAdd);
+            repo.insertFavorite(toAdd);
+        }
+    }
 
+
+    //TODO doc string
     public void setNumbers(String calories, String protein, String fat, String carbs) {
         if (calories.isEmpty()) {
             setCalories(0);
@@ -73,6 +117,24 @@ public class AddViewModel extends AndroidViewModel {
             setCarbs(Integer.parseInt(carbs));
         }
 
+    }
+
+    /**
+     * Only runs once on mainActivity being created. //TODO might have to move to mainActivity resume
+     */
+    public void loadFavoriteTrie() {
+        Executors.newSingleThreadExecutor().execute(() -> fTrie = new FavoriteTrie(repo.loadFavorites()));
+    }
+
+    private void addToTrie(Favorite favorite) {
+        fTrie.add(favorite);
+    }
+    public void deleteFromTrie(Favorite favorite) {
+        //TODO go through code and find every time you need to call this
+        fTrie.delete(favorite);
+    }
+    public List<Favorite> getSortedFavoritesWithPrefix(String prefix) {
+        return fTrie.sortedFavoritesWithPrefix(prefix);
     }
 
     //TODO the number setters could maybe be private

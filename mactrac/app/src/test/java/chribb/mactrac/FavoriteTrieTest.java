@@ -14,47 +14,76 @@ import static org.junit.Assert.*;
 public class FavoriteTrieTest {
 
     @Test
-    public void TestTrie() {
-        List<Favorite> favorites = new ArrayList<>();
-        favorites.add(new Favorite("TestLunch", 500, 20, 10, 10, 5));
-        favorites.add(new Favorite("TestBanana", 100, 1, 0, 20, 3));
-        favorites.add(new Favorite("TestSnack", 200, 4, 2, 5, 10));
-        favorites.add(new Favorite("TestDinner", 800, 30, 10, 15, 1));
-        favorites.add(new Favorite("TestBreakfast", 400, 7, 2, 8, 7));
-        favorites.add(new Favorite("TestSandwich", 300, 4, 2, 5, 2));
-        favorites.add(new Favorite("TestApple", 80, 1, 0, 15, 9));
-        
-        List<Favorite> expectedSorted = new ArrayList<>();
-        expectedSorted.add(new Favorite("TestSnack", 200, 4, 2, 5, 10));
-        expectedSorted.add(new Favorite("TestApple", 80, 1, 0, 15, 9));
-        expectedSorted.add(new Favorite("TestBreakfast", 400, 7, 2, 8, 7));
-        expectedSorted.add(new Favorite("TestLunch", 500, 20, 10, 10, 5));
-        expectedSorted.add(new Favorite("TestBanana", 100, 1, 0, 20, 3));
-        expectedSorted.add(new Favorite("TestSandwich", 300, 4, 2, 5, 2));
-        expectedSorted.add(new Favorite("TestDinner", 800, 30, 10, 15, 1));
-        
-        List<Favorite> sorted;
+    public void testSize() {
+        List<Favorite> basicFavorites = createBasicTestList();
+        FavoriteTrie fTrie = new FavoriteTrie(basicFavorites);
 
-        FavoriteTrie fTrie = new FavoriteTrie(favorites);
+        int expectedSize = basicFavorites.size();
+        assertEquals(expectedSize, fTrie.size());
 
-        assertEquals(7, fTrie.size());
+        Favorite aFavorite = basicFavorites.get(3);
+        fTrie.delete(aFavorite);
+        assertEquals(--expectedSize, fTrie.size());
 
-        sorted = fTrie.sortedFavoritesWithPrefix("Test");
+        fTrie.add(aFavorite);
+        assertEquals(++expectedSize, fTrie.size());
 
-        assertEquals(expectedSorted, sorted);
+    }
 
-        sorted = fTrie.sortedFavoritesWithPrefix("TestLu");
+    @Test
+    public void testOrder() {
+        List<Favorite> basicFavorites = createBasicTestList();
+        FavoriteTrie fTrie = new FavoriteTrie(basicFavorites);
 
-        assertEquals(1, sorted.size());
+        boolean isSorted = true;
+        for (int i = 1; i < basicFavorites.size(); i++) {
+            int thisCount = basicFavorites.get(i).getCount();
+            int previousCount = basicFavorites.get(i - 1).getCount();
+            if (thisCount > previousCount) {
+                isSorted = false;
+            }
+        }
+        assertFalse(isSorted);
 
-        sorted = fTrie.sortedFavoritesWithPrefix("TestB");
+        isSorted = true;
+        List<Favorite> sorted = fTrie.sortedFavoritesWithPrefix("Test");
+        for (int i = 1; i < sorted.size(); i++) {
+            int thisCount = sorted.get(i).getCount();
+            int previousCount = sorted.get(i - 1).getCount();
+            if (thisCount > previousCount) {
+                isSorted = false;
+            }
+        }
+        assertTrue(isSorted);
+    }
 
-        assertEquals(2, sorted.size());
 
-        List<Favorite> testBExpected = new ArrayList<>();
-        testBExpected.add(new Favorite("TestBreakfast", 400, 7, 2, 8, 7));
-        testBExpected.add(new Favorite("TestBanana", 100, 1, 0, 20, 3));
 
-        assertEquals(testBExpected, sorted);
+    private List<Favorite> createBasicTestList() {
+        List<Favorite> testList = new ArrayList<>();
+
+        Favorite dinner = new Favorite("TestDinner", 0, 0, 0, 0, 1);
+        Favorite sandwich = new Favorite("TestSandwich", 0, 0, 0, 0, 2);
+        Favorite banana = new Favorite("TestBanana", 0, 0, 0, 0, 3);
+        Favorite cookie = new Favorite("TestCookie", 0, 0, 0, 0, 4);
+        Favorite lunch = new Favorite( "TestLunch", 0, 0, 0, 0, 5);
+        Favorite fish = new Favorite("TestFish", 0, 0, 0 , 0, 6);
+        Favorite breakfast = new Favorite("TestBreakfast", 0, 0, 0, 0, 7);
+        Favorite chicken = new Favorite("TestChicken", 0, 0, 0, 0, 8);
+        Favorite apple = new Favorite("TestApple", 0, 0, 0, 0, 9);
+        Favorite snack = new Favorite("TestSnack", 0, 0, 0, 0, 10);
+
+        testList.add(fish);
+        testList.add(dinner);
+        testList.add(banana);
+        testList.add(breakfast);
+        testList.add(sandwich);
+        testList.add(snack);
+        testList.add(cookie);
+        testList.add(lunch);
+        testList.add(chicken);
+        testList.add(apple);
+
+        return testList;
     }
 }

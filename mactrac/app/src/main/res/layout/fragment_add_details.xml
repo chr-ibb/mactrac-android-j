@@ -34,7 +34,7 @@
         android:layout_marginTop="32dp"
         android:checked="true"
         android:contentDescription="Quickly add this same food later"
-        android:text="Save to favorites"
+        android:text="Save to Favorites"
         app:layout_constraintEnd_toStartOf="@+id/check_details_planned"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -41,7 +42,9 @@ public class AddDetailsFragment extends Fragment {
         navController = Navigation.findNavController(view);
 
         fillOutFoodCard(view);
+        changeFavoriteText(view);
 
+        CheckBox favoriteCheck = view.findViewById(R.id.check_details_favorite);
         Button confirmButton = view.findViewById(R.id.button_details_confirm);
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +57,9 @@ public class AddDetailsFragment extends Fragment {
                 // the new food is already there when you get there.
 
                 addViewModel.addFood();
+
+                boolean fChecked = favoriteCheck.isChecked();
+                addViewModel.addFavorite(fChecked);
 
                 navPop();
             }
@@ -86,5 +92,12 @@ public class AddDetailsFragment extends Fragment {
 
         String carbs = addViewModel.getCarbs().toString() + "g Carbs";
         foodCarbs.setText(carbs);
+    }
+
+    private void changeFavoriteText(View view) {
+        CheckBox favoriteCheck = view.findViewById(R.id.check_details_favorite);
+        if (addViewModel.alreadyFavorite()) {
+            favoriteCheck.setText("Overwrite in Favorites");
+        }
     }
 }

@@ -110,6 +110,7 @@ public class FavoriteTrie {
         if (i == key.length() && n.isKey) {
             n.isKey = false;
             n.keyValue = null;
+            size--;
         }
     }
 

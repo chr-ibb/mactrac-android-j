@@ -15,9 +15,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import chribb.mactrac.ui.add.AddViewModel;
+
 
 public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
+    private AddViewModel addViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        addViewModel =  new ViewModelProvider(this).get(AddViewModel.class);
+        addViewModel.loadFavoriteTrie();
     }
 
 //    @Override

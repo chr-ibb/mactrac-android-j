@@ -91,5 +91,9 @@ public class MacroRepository {
         return favoriteDao.loadFavorites();
     }
 
+    public Favorite getFavorite(String name) {
+        return favoriteDao.getFavorite(name);
+    }
+
 
 }
