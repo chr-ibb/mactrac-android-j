@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,10 +17,15 @@ import chribb.mactrac.R;
 
 public class FoodListAdapter extends ListAdapter<Macro, FoodListAdapter.FoodViewHolder> {
     private final LayoutInflater inflater;
+    private DayScreenSlideFragment.OnItemTouchListener onItemTouchListener;
+    private String adapter_context;
 
-    FoodListAdapter(Context context) {
+    FoodListAdapter(Context context, DayScreenSlideFragment.OnItemTouchListener onItemTouchListener,
+                    String adapter_context) {
         super(DIFF_CALLBACK);
         inflater = LayoutInflater.from(context);
+        this.onItemTouchListener = onItemTouchListener;
+        this.adapter_context = adapter_context;
     }
 
     private static final DiffUtil.ItemCallback<Macro> DIFF_CALLBACK =
@@ -66,22 +72,63 @@ public class FoodListAdapter extends ListAdapter<Macro, FoodListAdapter.FoodView
     Macro getMacro(int position) {
         return getItem(position);
     }
+    
+    public void toggleButtonVis (int position) {
+        
+    }
 
-    public static class FoodViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class FoodViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final TextView foodName;
         private final TextView foodCalories; //TODO Viewbinding
         private final TextView foodProtein;
         private final TextView foodFat;
         private final TextView foodCarbs;
+        private final Button editButton;
+        private final Button deleteButton;
+        private final Button selectButton;
+        private final TextView notes;
 
-        private FoodViewHolder(View itemView) {
+        private boolean detailsVisible;
+
+        public FoodViewHolder(View itemView) {
             super(itemView);
             foodName = itemView.findViewById(R.id.food_name);
             foodCalories = itemView.findViewById(R.id.food_calories);
             foodProtein = itemView.findViewById(R.id.food_protein);
             foodFat = itemView.findViewById(R.id.food_fat);
             foodCarbs = itemView.findViewById(R.id.food_carbs);
-            itemView.setOnClickListener(this);
+
+            editButton = itemView.findViewById(R.id.button_food_edit);
+            deleteButton = itemView.findViewById(R.id.button_food_delete);
+            selectButton = itemView.findViewById(R.id.button_food_select);
+            notes = itemView.findViewById(R.id.food_note);
+            detailsVisible = false;
+//            itemView.setOnClickListener(this);
+
+
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //getLayoutPosition, getBindingAdapterPosition() or getAbsoluteAdapterPosition() depending on use case
+                    onItemTouchListener.onCardViewTap(v, getLayoutPosition());
+                    toggleDetails();
+                }
+            });
+
+            editButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onItemTouchListener.onEditClick(v, getLayoutPosition());
+                }
+            });
+
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onItemTouchListener.onDeleteClick(v, getLayoutPosition());
+                }
+            });
         }
 
 
@@ -89,6 +136,36 @@ public class FoodListAdapter extends ListAdapter<Macro, FoodListAdapter.FoodView
         public void onClick(View v) {
             //TODO this is empty
         }
+
+        public void toggleDetails() {
+            if (adapter_context == "day") {
+                toggleDetailsDay();
+            } else if (adapter_context == "add") {
+                toggleDetailsAdd();
+            }
+            detailsVisible = !detailsVisible;
+        }
+        private void toggleDetailsDay() {
+            if (detailsVisible) {
+                editButton.setVisibility(View.GONE);
+                deleteButton.setVisibility(View.GONE);
+                notes.setVisibility(View.GONE);
+            } else {
+                editButton.setVisibility(View.VISIBLE);
+                deleteButton.setVisibility(View.VISIBLE);
+                notes.setVisibility(View.VISIBLE);
+            }
+        }
+        private void toggleDetailsAdd() {
+            if (detailsVisible) {
+                deleteButton.setVisibility(View.GONE);
+                selectButton.setVisibility(View.GONE);
+            } else {
+                deleteButton.setVisibility(View.VISIBLE);
+                selectButton.setVisibility(View.VISIBLE);
+            }
+        }
+
     }
 
     //TODO Do I need to Override getItemCount?

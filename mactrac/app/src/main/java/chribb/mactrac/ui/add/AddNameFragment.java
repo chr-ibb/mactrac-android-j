@@ -115,4 +115,8 @@ public class AddNameFragment extends Fragment {
         NavDirections action = AddNameFragmentDirections.actionNavAddNameToNavAddNumbers();
         navController.navigate(action);
     }
+//    private void navToDetails() {
+//        NavDirections action = AddNameFragmentDirections.actionNavAddNameToNavAddDetails();
+//        navController.navigate(action);
+//    }
 }

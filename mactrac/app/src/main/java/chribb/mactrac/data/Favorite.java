@@ -82,6 +82,10 @@ public class Favorite {
         }
         Favorite o = (Favorite) obj;
 
-        return  o.getName().equals(this.name);
+        return  o.getName().equals(this.name) &&
+                o.getCalories().equals(this.calories) &&
+                o.getProtein().equals(this.protein) &&
+                o.getFat().equals(this.fat) &&
+                o.getCarbs().equals(this.carbs);
     }
 }

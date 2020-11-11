@@ -10,24 +10,25 @@
         android:id="@+id/text_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:text="Name:"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_name"
+        app:layout_constraintEnd_toStartOf="@+id/edit_name"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/edit_name" />
 
     <EditText
         android:id="@+id/edit_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:autofillHints="food"
         android:ems="10"
         android:hint='"Banana",  "Lunch", etc'
+        android:imeOptions="actionDone"
         android:inputType="textPersonName"
-        android:autofillHints="food"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_name"
-        android:imeOptions="actionDone"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button_name_next"
@@ -37,7 +38,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/edit_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/edit_name"
-        app:layout_constraintTop_toBottomOf="@+id/text_name" />
+        app:layout_constraintTop_toTopOf="@+id/edit_name" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_add_name"

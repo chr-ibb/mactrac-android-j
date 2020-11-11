@@ -9,7 +9,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import chribb.mactrac.MainActivity;
 import chribb.mactrac.Utils;
 import chribb.mactrac.data.Macro;
 import chribb.mactrac.R;
@@ -82,9 +85,29 @@ public class DayScreenSlideFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
+
+        OnItemTouchListener itemTouchListener = new OnItemTouchListener() {
+            @Override
+            public void onCardViewTap(View view, int position) {
+                Toast.makeText(requireContext(), "Tapped position" + position, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onEditClick(View view, int position) {
+                Toast.makeText(requireContext(), "Clicked Edit on position " + position, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onDeleteClick(View view, int position) {
+                Toast.makeText(requireContext(), "Clicked Delete on position " + position, Toast.LENGTH_SHORT).show();
+                deleteMacro(position);
+            }
+        };
+
         thisView = view;
         recyclerView = view.findViewById(R.id.recyclerview);
-        adapter = new FoodListAdapter(getContext());
+        adapter = new FoodListAdapter(getContext(), itemTouchListener, "day");
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         itemTouchHelper.attachToRecyclerView(recyclerView);
@@ -179,6 +202,12 @@ public class DayScreenSlideFragment extends Fragment {
         disableEditMode();
     }
 
+    public interface OnItemTouchListener {
+        public void onCardViewTap(View view, int position);
+        public void onEditClick(View view, int position);
+        public void onDeleteClick(View view, int position);
+    }
+
 
     /* Private Methods */
 
@@ -267,18 +296,20 @@ public class DayScreenSlideFragment extends Fragment {
              */
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                List<Macro> macrosCopy = new ArrayList<>(adapter.getCurrentList());
+//                List<Macro> macrosCopy = new ArrayList<>(adapter.getCurrentList());
+//                deletePosition = viewHolder.getAdapterPosition();
+//                deleteMacro = adapter.getMacro(deletePosition);
+//                dayViewModel.deleteFood(deleteMacro.getId());
+//                macrosCopy.remove(deletePosition);
+//
+//                for (int i = deletePosition; i < macrosCopy.size(); i++) {
+//                    macrosCopy.get(i).setPosition(i);
+//                }
+//
+//                dayViewModel.update(macrosCopy);
+//                showUndoSnackbar();
                 deletePosition = viewHolder.getAdapterPosition();
-                deleteMacro = adapter.getMacro(deletePosition);
-                dayViewModel.deleteFood(deleteMacro.getId());
-                macrosCopy.remove(deletePosition);
-
-                for (int i = deletePosition; i < macrosCopy.size(); i++) {
-                    macrosCopy.get(i).setPosition(i);
-                }
-
-                dayViewModel.update(macrosCopy);
-                showUndoSnackbar();
+                deleteMacro(deletePosition);
             }
 
             /**
@@ -303,7 +334,25 @@ public class DayScreenSlideFragment extends Fragment {
             }
 
 
+
         });
+    }
+
+    /**
+     * Deletes Food Item, updates position of all items that follow
+     */
+    private void deleteMacro(int position) {
+        List<Macro> macrosCopy = new ArrayList<>(adapter.getCurrentList());
+        deleteMacro = adapter.getMacro(position);
+        dayViewModel.deleteFood(deleteMacro.getId());
+        macrosCopy.remove(deletePosition);
+
+        for (int i = deletePosition; i < macrosCopy.size(); i++) {
+            macrosCopy.get(i).setPosition(i);
+        }
+
+        dayViewModel.update(macrosCopy);
+        showUndoSnackbar();
     }
 
     /**
@@ -415,6 +464,7 @@ public class DayScreenSlideFragment extends Fragment {
      * Undoes the most previous deletion. Updates the POSITION of each macro below the insertion.
      */
     private void undoDelete() {
+        //TODO for some reason undoing after deleting with button rather than swipe results in wrong placement
         List<Macro> macrosCopy = new ArrayList<>(adapter.getCurrentList());
         for (int i = deletePosition; i < macrosCopy.size(); i++) {
             macrosCopy.get(i).setPosition(i + 1);

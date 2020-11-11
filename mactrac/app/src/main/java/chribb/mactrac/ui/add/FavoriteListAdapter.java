@@ -26,7 +26,7 @@ public class FavoriteListAdapter extends ListAdapter<Favorite, FavoriteListAdapt
             new DiffUtil.ItemCallback<Favorite>() {
                 @Override
                 public boolean areItemsTheSame(@NonNull Favorite oldItem, @NonNull Favorite newItem) {
-                    return oldItem.getName() == newItem.getName();
+                    return oldItem.getName().equals(newItem.getName());
                 }
 
                 @Override
@@ -49,7 +49,7 @@ public class FavoriteListAdapter extends ListAdapter<Favorite, FavoriteListAdapt
         Favorite current = getItem(position);
 
         //TODO extract strings
-        String name = current.getName(); // + " Position: " + current.getPosition();
+        String name = current.getName();
         holder.FavoriteName.setText(name);
         String cal = current.getCalories() + " Calories";
         holder.FavoriteCalories.setText(cal);

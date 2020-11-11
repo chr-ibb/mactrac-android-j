@@ -32,7 +32,7 @@ public class DayFragment extends Fragment {
     private FloatingActionButton fab;
 
     //This is the number of days between January 1 1970 and January 1 2070
-    //TODO Probably move this somewhere else
+    //TODO Probably move this to an Enum or something
     private static final int NUM_DAYS =  36525;
 
     @Override
@@ -76,6 +76,7 @@ public class DayFragment extends Fragment {
         });
 
         //TODO Will only ever open to current day when view is created, could be a problem.
+        // might have to save the last day that was open, and open that.
         changeDayOnScreen(dayViewModel.getToday(), false);
 
         //FAB on click will make itself invisible, and then navigate to Add Macro fragment
@@ -110,6 +111,7 @@ public class DayFragment extends Fragment {
                 //TODO
                 return true;
             case R.id.action_edit_macros:
+                // handled in DayScreenSlideFragment
                 return false;
             case R.id.action_delete_all:
                 dayViewModel.deleteAll();
