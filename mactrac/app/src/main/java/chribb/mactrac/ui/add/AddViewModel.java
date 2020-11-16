@@ -36,9 +36,17 @@ public class AddViewModel extends AndroidViewModel {
     }
 
     /* * * Repo Methods * * */
-    void insert(Integer day, String food, Integer calories,
-                Integer protein, Integer fat, Integer carbs, int position) {
-        repo.insert(new Macro(day, food, calories, protein, fat, carbs, position));
+    void insertMacro(Integer day, String food, Integer calories,
+                Integer protein, Integer fat, Integer carbs, int count) {
+        repo.insert(new Macro(day, food, calories, protein, fat, carbs, count));
+    }
+    void insertFavorite(Favorite favorite) {
+        addToTrie(favorite);
+        repo.insertFavorite(favorite);
+    }
+    void deleteFavorite(Favorite deleteFavorite) {
+        deleteFromTrie(deleteFavorite);
+        repo.deleteFavorite(deleteFavorite.getName());
     }
 
     private int countFood(int day) {
@@ -63,8 +71,9 @@ public class AddViewModel extends AndroidViewModel {
         return favorite != null;
     }
 
+    //TODO what is this? Is it trying to add a Macro or Favorite?
     public void addFood() {
-        insert(day, name, calories, protein, fat, carbs, count);
+        insertMacro(day, name, calories, protein, fat, carbs, count);
     }
 
     public void addFavorite(boolean checked) {
@@ -74,19 +83,17 @@ public class AddViewModel extends AndroidViewModel {
             if (checked) {
                 Favorite toAdd = new Favorite(name, calories, protein, fat, carbs,
                         favorite.getCount() + 1);
-                addToTrie(toAdd);
-                repo.insertFavorite(toAdd);
+
+                insertFavorite(toAdd);
             } else {
                 Favorite toAdd = new Favorite(favorite.getName(), favorite.getCalories(),
                         favorite.getProtein(), favorite.getFat(), favorite.getCarbs(),
                         favorite.getCount() + 1);
-                addToTrie(toAdd);
-                repo.insertFavorite(toAdd);
+                insertFavorite(toAdd);
             }
         } else if (checked) {
             Favorite toAdd = new Favorite(name, calories, protein, fat, carbs,1);
-            addToTrie(toAdd);
-            repo.insertFavorite(toAdd);
+            insertFavorite(toAdd);
         }
     }
 
@@ -116,7 +123,12 @@ public class AddViewModel extends AndroidViewModel {
         } else {
             setCarbs(Integer.parseInt(carbs));
         }
-
+    }
+    public void setNumbers(Favorite favorite) {
+        setCalories(favorite.getCalories());
+        setProtein(favorite.getProtein());
+        setFat(favorite.getFat());
+        setCarbs(favorite.getCarbs());
     }
 
     /**

@@ -20,6 +20,8 @@ public class FoodListAdapter extends ListAdapter<Macro, FoodListAdapter.FoodView
     private DayScreenSlideFragment.OnItemTouchListener onItemTouchListener;
     private String adapter_context;
 
+    //TODO adapterContext is only useful if I end up using the same adapter in different contexts eventually.
+    // Might be a good Idea to do that, since foodlistadapter and favoritelistadapter are so similar? maybe not.
     FoodListAdapter(Context context, DayScreenSlideFragment.OnItemTouchListener onItemTouchListener,
                     String adapter_context) {
         super(DIFF_CALLBACK);
@@ -74,7 +76,7 @@ public class FoodListAdapter extends ListAdapter<Macro, FoodListAdapter.FoodView
     }
     
     public void toggleButtonVis (int position) {
-        
+        //TODO
     }
 
     public class FoodViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -141,7 +143,7 @@ public class FoodListAdapter extends ListAdapter<Macro, FoodListAdapter.FoodView
             if (adapter_context == "day") {
                 toggleDetailsDay();
             } else if (adapter_context == "add") {
-                toggleDetailsAdd();
+                toggleDetailsAdd(); //TODO this is not needed, I'm using two different Adapters. All of these methods can be simplified to like one.
             }
             detailsVisible = !detailsVisible;
         }

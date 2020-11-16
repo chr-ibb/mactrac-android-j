@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,10 +17,12 @@ import chribb.mactrac.R;
 
 public class FavoriteListAdapter extends ListAdapter<Favorite, FavoriteListAdapter.FavoriteViewHolder> {
     private final LayoutInflater inflater;
+    AddNameFragment.OnItemTouchListener onItemTouchListener;
 
-    FavoriteListAdapter(Context context) {
+    FavoriteListAdapter(Context context, AddNameFragment.OnItemTouchListener onItemTouchListener) {
         super(DIFF_CALLBACK);
         inflater = LayoutInflater.from(context);
+        this.onItemTouchListener = onItemTouchListener;
     }
 
     private static final DiffUtil.ItemCallback<Favorite> DIFF_CALLBACK =
@@ -67,12 +70,15 @@ public class FavoriteListAdapter extends ListAdapter<Favorite, FavoriteListAdapt
         return getItem(position);
     }
 
-    public static class FavoriteViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class FavoriteViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final TextView FavoriteName;
         private final TextView FavoriteCalories; //TODO Viewbinding
         private final TextView FavoriteProtein;
         private final TextView FavoriteFat;
         private final TextView FavoriteCarbs;
+        private final Button deleteButton;
+        private final Button selectButton;
+        private boolean buttonsVisible;
 
         private FavoriteViewHolder(View itemView) {
             super(itemView);
@@ -81,13 +87,54 @@ public class FavoriteListAdapter extends ListAdapter<Favorite, FavoriteListAdapt
             FavoriteProtein = itemView.findViewById(R.id.food_protein);
             FavoriteFat = itemView.findViewById(R.id.food_fat);
             FavoriteCarbs = itemView.findViewById(R.id.food_carbs);
-            itemView.setOnClickListener(this);
+
+            deleteButton = itemView.findViewById(R.id.button_food_delete);
+            selectButton = itemView.findViewById(R.id.button_food_select);
+            buttonsVisible = false;
+
+//            itemView.setOnClickListener(this);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //getLayoutPosition, getBindingAdapterPosition() or getAbsoluteAdapterPosition() depending on use case
+                    onItemTouchListener.onCardViewTap(v, getLayoutPosition());
+                    toggleButtons();
+                }
+            });
+
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onItemTouchListener.onDeleteClick(v, getLayoutPosition());
+                    toggleButtons();
+                }
+            });
+
+            selectButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onItemTouchListener.onSelectClick(v, getLayoutPosition());
+                    toggleButtons();
+                }
+            });
         }
 
 
         @Override
         public void onClick(View v) {
             //TODO this is empty
+        }
+
+        private void toggleButtons() {
+            if (buttonsVisible) {
+                deleteButton.setVisibility(View.GONE);
+                selectButton.setVisibility(View.GONE);
+            } else {
+                deleteButton.setVisibility(View.VISIBLE);
+                selectButton.setVisibility(View.VISIBLE);
+            }
+            buttonsVisible = !buttonsVisible;
         }
     }
 

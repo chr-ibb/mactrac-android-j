@@ -43,7 +43,7 @@ public class DayScreenSlideFragment extends Fragment {
     private boolean isEditMode;
     private View thisView;
 
-    private Macro deleteMacro;
+    private Macro macroToDelete;
     private int deletePosition;
     private MenuItem editMenuItem;
 
@@ -86,7 +86,7 @@ public class DayScreenSlideFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-
+        //TODO move to method to lessen clutter in onViewCreated(here)
         OnItemTouchListener itemTouchListener = new OnItemTouchListener() {
             @Override
             public void onCardViewTap(View view, int position) {
@@ -202,6 +202,7 @@ public class DayScreenSlideFragment extends Fragment {
         disableEditMode();
     }
 
+    //TODO doc string
     public interface OnItemTouchListener {
         public void onCardViewTap(View view, int position);
         public void onEditClick(View view, int position);
@@ -298,7 +299,7 @@ public class DayScreenSlideFragment extends Fragment {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
 //                List<Macro> macrosCopy = new ArrayList<>(adapter.getCurrentList());
 //                deletePosition = viewHolder.getAdapterPosition();
-//                deleteMacro = adapter.getMacro(deletePosition);
+//                macroToDelete = adapter.getMacro(deletePosition);
 //                dayViewModel.deleteFood(deleteMacro.getId());
 //                macrosCopy.remove(deletePosition);
 //
@@ -308,8 +309,7 @@ public class DayScreenSlideFragment extends Fragment {
 //
 //                dayViewModel.update(macrosCopy);
 //                showUndoSnackbar();
-                deletePosition = viewHolder.getAdapterPosition();
-                deleteMacro(deletePosition);
+                deleteMacro(viewHolder.getAdapterPosition());
             }
 
             /**
@@ -343,8 +343,9 @@ public class DayScreenSlideFragment extends Fragment {
      */
     private void deleteMacro(int position) {
         List<Macro> macrosCopy = new ArrayList<>(adapter.getCurrentList());
-        deleteMacro = adapter.getMacro(position);
-        dayViewModel.deleteFood(deleteMacro.getId());
+        macroToDelete = adapter.getMacro(position);
+        dayViewModel.deleteFood(macroToDelete.getId());
+        deletePosition = position;
         macrosCopy.remove(deletePosition);
 
         for (int i = deletePosition; i < macrosCopy.size(); i++) {
@@ -454,7 +455,7 @@ public class DayScreenSlideFragment extends Fragment {
      */
     private void showUndoSnackbar() {
         //TODO extract strings
-        String snackString = "Deleted " + deleteMacro.getFood();
+        String snackString = "Deleted " + macroToDelete.getFood();
         Snackbar snackbar = Snackbar.make(thisView, snackString, Snackbar.LENGTH_LONG);
         snackbar.setAction("Click to Undo", f -> undoDelete());
         snackbar.show();
@@ -470,7 +471,7 @@ public class DayScreenSlideFragment extends Fragment {
             macrosCopy.get(i).setPosition(i + 1);
         }
         dayViewModel.update(macrosCopy);
-        dayViewModel.insert(deleteMacro);
+        dayViewModel.insert(macroToDelete);
     }
 
     /**
